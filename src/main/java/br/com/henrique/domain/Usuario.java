@@ -1,6 +1,8 @@
 package br.com.henrique.domain;
 
 import br.com.henrique.domain.enums.Perfil;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -23,14 +25,20 @@ public class Usuario implements Serializable {
     private String email;
     private String telefone;
     private String login;
+
+    @JsonIgnore
     private String senha;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name= "PERFIS")
     private Set<Integer> perfis = new HashSet<>();
 
+    @JsonIgnoreProperties("usuario")
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private List<Endereco> enderecos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "cliente")
+    private List<Pedido> pedidos = new ArrayList<>();
 
     public Usuario() {
     }
@@ -125,6 +133,14 @@ public class Usuario implements Serializable {
 
     public void addPerfil(Perfil perfil){
         perfis.add(perfil.getCod());
+    }
+
+    public List<Pedido> getPedidos() {
+        return pedidos;
+    }
+
+    public void setPedidos(List<Pedido> pedidos) {
+        this.pedidos = pedidos;
     }
 
     @Override

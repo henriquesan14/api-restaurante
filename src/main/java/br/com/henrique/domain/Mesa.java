@@ -1,41 +1,32 @@
 package br.com.henrique.domain;
 
-import br.com.henrique.domain.enums.TipoCategoria;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import br.com.henrique.domain.enums.StatusMesa;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Categoria implements Serializable {
+public class Mesa implements Serializable {
     private static final long serialVersionUID = 1L;
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotEmpty(message = "Preenchimento obrigatorio")
     private String nome;
+    private Integer status;
 
-    @NotNull(message = "Preenchimento obrigatorio")
-    private Integer tipoCategoria;
+    @OneToMany(mappedBy = "mesa")
+    private List<Pedido> pedidos = new ArrayList<>();
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "categoria")
-    private List<Produto> produtos =  new ArrayList<>();
-
-    public Categoria() {
+    public Mesa() {
     }
 
-    public Categoria(Long id, String nome, TipoCategoria tipoCategoria) {
+    public Mesa(Long id, String nome, StatusMesa status) {
         this.id = id;
         this.nome = nome;
-        this.tipoCategoria = tipoCategoria.getCod();
+        this.status = status.getCod();
     }
 
     public Long getId() {
@@ -54,20 +45,20 @@ public class Categoria implements Serializable {
         this.nome = nome;
     }
 
-    public TipoCategoria getTipoCategoria() {
-        return TipoCategoria.toEnum(tipoCategoria);
+    public StatusMesa getStatus() {
+        return StatusMesa.toEnum(status);
     }
 
-    public void setTipoCategoria(TipoCategoria tipoCategoria) {
-        this.tipoCategoria = tipoCategoria.getCod();
+    public void setStatus(StatusMesa status) {
+        this.status = status.getCod();
     }
 
-    public List<Produto> getProdutos() {
-        return produtos;
+    public List<Pedido> getPedidos() {
+        return pedidos;
     }
 
-    public void setProdutos(List<Produto> produtos) {
-        this.produtos = produtos;
+    public void setPedidos(List<Pedido> pedidos) {
+        this.pedidos = pedidos;
     }
 
     @Override
@@ -86,7 +77,7 @@ public class Categoria implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Categoria other = (Categoria) obj;
+        Mesa other = (Mesa) obj;
         if (id == null) {
             if (other.id != null)
                 return false;
@@ -94,5 +85,4 @@ public class Categoria implements Serializable {
             return false;
         return true;
     }
-
 }

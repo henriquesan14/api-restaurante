@@ -5,10 +5,11 @@ import br.com.henrique.domain.Produto;
 import br.com.henrique.services.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,4 +26,32 @@ public class ProdutoResource {
         List<ProdutoDTO> listDto = list.stream().map(obj -> new ProdutoDTO(obj)).collect(Collectors.toList());
         return ResponseEntity.ok().body(listDto);
     }
+
+    @RequestMapping(value="/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Produto> find(@PathVariable Long id){
+        Produto obj = produtoService.find(id);
+        return ResponseEntity.ok().body(obj);
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<Void> insert(@Valid @RequestBody Produto obj){
+        obj = produtoService.insert(obj);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}").buildAndExpand(obj.getId()).toUri();
+        return ResponseEntity.created(uri).build();
+    }
+    
+    @RequestMapping(value="/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Void> update(@Valid @RequestBody Produto obj, @PathVariable Long id){
+        obj.setId(id);
+        produtoService.update(obj);
+        return ResponseEntity.noContent().build();
+    }
+
+    @RequestMapping(value="/{id}",method = RequestMethod.DELETE)
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        produtoService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }

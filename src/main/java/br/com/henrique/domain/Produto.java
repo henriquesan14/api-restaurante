@@ -1,6 +1,8 @@
 package br.com.henrique.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -12,10 +14,13 @@ public class Produto implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty(message="Preenchimento obrigatorio")
     private String nome;
 
+    @NotNull(message="Preenchimento obrigatorio")
     private BigDecimal preco;
 
+    @NotNull(message="Preenchimento obrigatorio")
     @ManyToOne
     @JoinColumn(name="categoria_id")
     private Categoria categoria;

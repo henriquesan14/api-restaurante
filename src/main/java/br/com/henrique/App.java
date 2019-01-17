@@ -64,8 +64,10 @@ public class App implements CommandLineRunner {
         mesaRepository.save(m);
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         Pedido ped1= new Pedido(null,sdf.parse("30/09/2017 10:32"),m,u2,u);
-        ItemPedido i = new ItemPedido(ped1,p1,1,BigDecimal.valueOf(8));
+        ItemPedido i = new ItemPedido(ped1,p1,1);
+        ItemPedido i2 = new ItemPedido(ped1,p2,2);
         ped1.getItens().add(i);
+        ped1.getItens().add(i2);
         pedidoRepository.save(ped1);
     }
 }

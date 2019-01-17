@@ -2,6 +2,7 @@ package br.com.henrique.domain;
 
 import br.com.henrique.domain.enums.StatusPedido;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -23,14 +24,17 @@ public class Pedido implements Serializable {
 
     private Integer status;
 
+    @JsonIgnoreProperties("pedidos")
     @ManyToOne
     @JoinColumn(name="mesa_id")
     private Mesa mesa;
 
+    @JsonIgnoreProperties("pedidos")
     @ManyToOne
     @JoinColumn(name="cliente_id")
     private Usuario cliente;
 
+    @JsonIgnoreProperties("pedidos")
     @ManyToOne
     @JoinColumn(name="funcionario_id")
     private Usuario funcionario;

@@ -19,22 +19,20 @@ public class ItemPedido implements Serializable {
 
     private Integer quantidade;
 
-    private BigDecimal preco;
 
 
     public ItemPedido() {
     }
 
-    public ItemPedido(Pedido pedido,Produto produto, Integer quantidade, BigDecimal preco) {
+    public ItemPedido(Pedido pedido,Produto produto, Integer quantidade) {
         id.setPedido(pedido);
         id.setProduto(produto);
         this.quantidade = quantidade;
-        this.preco = preco;
     }
 
     public BigDecimal getSubTotal(){
         BigDecimal qtd = BigDecimal.valueOf(quantidade);
-        return preco.multiply(qtd);
+        return id.getProduto().getPreco().multiply(qtd);
     }
 
     @JsonIgnore
@@ -68,14 +66,6 @@ public class ItemPedido implements Serializable {
 
     public void setQuantidade(Integer quantidade) {
         this.quantidade = quantidade;
-    }
-
-    public BigDecimal getPreco() {
-        return preco;
-    }
-
-    public void setPreco(BigDecimal preco) {
-        this.preco = preco;
     }
 
 

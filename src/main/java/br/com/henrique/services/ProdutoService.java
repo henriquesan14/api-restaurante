@@ -7,6 +7,9 @@ import br.com.henrique.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -54,6 +57,11 @@ public class ProdutoService {
         }catch(DataIntegrityViolationException e){
             throw new DataIntegrityException("Não é possivel excluir um produto que possui itens pedidos");
         }
+    }
+
+    public Page<Produto> findByCategoria(Long categoria, String nome, Integer page,Integer linesPorPage, String orderBy, String direction){
+        PageRequest pageRequest = PageRequest.of(page, linesPorPage, Sort.Direction.valueOf(direction), orderBy);
+        return produtoRepository.findByNomeAndCategoria(categoria,nome, pageRequest);
     }
 
 

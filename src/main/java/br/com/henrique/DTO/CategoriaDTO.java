@@ -1,6 +1,7 @@
 package br.com.henrique.DTO;
 
 import br.com.henrique.domain.Categoria;
+import br.com.henrique.domain.enums.TipoCategoria;
 
 import java.io.Serializable;
 

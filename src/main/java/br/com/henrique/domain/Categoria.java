@@ -4,6 +4,8 @@ import br.com.henrique.domain.enums.TipoCategoria;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +19,10 @@ public class Categoria implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty(message = "Preenchimento obrigatorio")
     private String nome;
 
+    @NotNull(message = "Preenchimento obrigatorio")
     private Integer tipoCategoria;
 
     @JsonIgnore
@@ -89,5 +93,16 @@ public class Categoria implements Serializable {
         } else if (!id.equals(other.id))
             return false;
         return true;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Categoria{");
+        sb.append("id=").append(id);
+        sb.append(", nome='").append(nome).append('\'');
+        sb.append(", tipoCategoria=").append(tipoCategoria);
+        sb.append(", produtos=").append(produtos);
+        sb.append('}');
+        return sb.toString();
     }
 }

@@ -1,5 +1,7 @@
 package br.com.henrique.domain;
 
+import org.hibernate.validator.constraints.Range;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -17,6 +19,7 @@ public class Produto implements Serializable {
     @NotEmpty(message="Preenchimento obrigatorio")
     private String nome;
 
+    @Range(min=1)
     @NotNull(message="Preenchimento obrigatorio")
     private BigDecimal preco;
 

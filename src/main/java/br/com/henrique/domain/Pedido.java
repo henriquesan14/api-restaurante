@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -22,11 +23,13 @@ public class Pedido implements Serializable {
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private Date data;
 
+    @NotNull(message = "Preenchimento obrigatorio")
     private Integer status;
 
     @JsonIgnoreProperties("pedidos")
     @ManyToOne
     @JoinColumn(name="mesa_id")
+    @NotNull(message = "Preenchimento obrigatorio")
     private Mesa mesa;
 
     @JsonIgnoreProperties("pedidos")
@@ -37,8 +40,10 @@ public class Pedido implements Serializable {
     @JsonIgnoreProperties("pedidos")
     @ManyToOne
     @JoinColumn(name="funcionario_id")
+    @NotNull(message = "Preenchimento obrigatorio")
     private Usuario funcionario;
 
+    @NotNull(message = "Preenchimento obrigatorio")
     @OneToMany(mappedBy = "id.pedido", cascade = CascadeType.ALL)
     private Set<ItemPedido> itens = new HashSet<>();
 

@@ -1,6 +1,7 @@
 package br.com.henrique.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 @Entity
@@ -10,10 +11,19 @@ public class Endereco implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotEmpty(message = "Preenchimento obrigatorio")
     private String logradouro;
+
+    @NotEmpty(message = "Preenchimento obrigatorio")
     private String numero;
+
+    @NotEmpty(message = "Preenchimento obrigatorio")
     private String bairro;
+
     private String complemento;
+
+    @NotEmpty(message = "Preenchimento obrigatorio")
     private String cep;
 
     @ManyToOne

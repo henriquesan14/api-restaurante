@@ -13,6 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 
     @Transactional(readOnly=true)
-    @Query("SELECT DISTINCT p FROM Produto p WHERE p.categoria.id=:categoria AND p.nome LIKE %:nome%")
-    Page<Produto> findByNomeAndCategoria(@Param("categoria") Long idCategoria, @Param("nome") String nome, Pageable pageRequest);
+    @Query("SELECT DISTINCT p FROM Produto p WHERE p.categoria.id=?1 AND UPPER(p.nome) LIKE UPPER(?2)")
+    Page<Produto> findByNomeAndCategoria(Long idCategoria, String nome, Pageable pageRequest);
 }

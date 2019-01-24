@@ -3,6 +3,8 @@ package br.com.henrique.domain;
 import br.com.henrique.domain.enums.StatusMesa;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +16,11 @@ public class Mesa implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotEmpty(message = "Preenchimento obrigatorio")
     private String nome;
+
+    @NotNull(message = "Preenchimento obrigatorio" )
     private Integer status;
 
     @OneToMany(mappedBy = "mesa")

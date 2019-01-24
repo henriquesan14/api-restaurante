@@ -48,12 +48,12 @@ public class App implements CommandLineRunner {
         categoriaRepository.saveAll(Arrays.asList(c1,c2));
         produtoRepository.saveAll(Arrays.asList(p1,p2,p3,p4));
 
-        Usuario u = new Usuario(null,"Henrique","Santos","11111111","henrique@gmail.com","55555555","admin","admin");
+        Usuario u = new Usuario(null,"Henrique","Santos","01782804455","henrique@gmail.com","55555555","admin","admin");
         Endereco e = new Endereco(null,"ekapoke","eapkeoak","eakpoeka","epakea","eakeopa",u);
         u.getEnderecos().add(e);
         u.addPerfil(Perfil.ADMIN);
 
-        Usuario u2 = new Usuario(null,"Xablau","Santos","222222","xablau@gmail.com","4434331111","admin","admin");
+        Usuario u2 = new Usuario(null,"Xablau","Santos","01782804455","xablau@gmail.com","4434331111","admin","admin");
         Endereco e2 = new Endereco(null,"ekapoke","eapkeoak","eakpoeka","epakea","eakeopa",u2);
         u2.getEnderecos().add(e2);
         u2.addPerfil(Perfil.CLIENTE);

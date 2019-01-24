@@ -1,43 +1,43 @@
 package br.com.henrique.resources;
 
-import br.com.henrique.DTO.PedidoDTO;
-import br.com.henrique.domain.Pedido;
-import br.com.henrique.services.PedidoService;
+import br.com.henrique.DTO.MesaDTO;
+import br.com.henrique.domain.Mesa;
+import br.com.henrique.services.MesaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/pedidos")
-public class PedidoResource {
+@RequestMapping(value="/mesas")
+public class MesaResource {
 
     @Autowired
-    private PedidoService pedidoService;
+    public MesaService mesaService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<PedidoDTO>> findAll(){
-        List<Pedido> list = pedidoService.findAll();
-        List<PedidoDTO > listDto = list.stream().map(obj -> new PedidoDTO(obj)).collect(Collectors.toList());
+    public ResponseEntity<List<MesaDTO>> findAll(){
+        List<Mesa> list = mesaService.findAll();
+        List<MesaDTO> listDto = list.stream().map(obj -> new MesaDTO(obj)).collect(Collectors.toList());
         return ResponseEntity.ok().body(listDto);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value="/{id}")
-    public ResponseEntity<Pedido> find(@PathVariable Long id){
-        Pedido obj = pedidoService.find(id);
+    @RequestMapping(value="/{id}",method = RequestMethod.GET)
+    public ResponseEntity<Mesa> find(@PathVariable Long id){
+        Mesa obj = mesaService.find(id);
         return ResponseEntity.ok().body(obj);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> insert(@RequestBody Pedido obj){
-        obj = pedidoService.insert(obj);
+    public ResponseEntity<Void> insert(@Valid @RequestBody Mesa obj){
+        obj =  mesaService.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
-
 }

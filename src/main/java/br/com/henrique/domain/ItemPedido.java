@@ -1,11 +1,11 @@
 package br.com.henrique.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -17,6 +17,8 @@ public class ItemPedido implements Serializable {
     @EmbeddedId
     private ItemPedidoPK id = new ItemPedidoPK();
 
+    @Range(min=1)
+    @NotNull(message = "Preenchimento obrigatorio")
     private Integer quantidade;
 
 

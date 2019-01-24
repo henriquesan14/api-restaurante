@@ -3,8 +3,12 @@ package br.com.henrique.domain;
 import br.com.henrique.domain.enums.Perfil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -19,18 +23,34 @@ public class Usuario implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotEmpty(message = "Preenchimento obrigatorio")
     private String nome;
+
+    @NotEmpty(message = "Preenchimento obrigatorio")
     private String sobrenome;
+
+    @CPF
+    @NotEmpty(message = "Preenchimento obrigatorio")
     private String cpf;
+
+    @NotEmpty(message = "Preenchimento obrigatorio")
+    @Email
     private String email;
+
+    @NotEmpty(message = "Preenchimento obrigatorio")
     private String telefone;
+
+    @NotEmpty(message = "Preenchimento obrigatorio")
     private String login;
 
     @JsonIgnore
+    @NotEmpty(message = "Preenchimento obrigatorio")
     private String senha;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name= "PERFIS")
+    @NotNull(message = "Preenchimento obrigatorio")
     private Set<Integer> perfis = new HashSet<>();
 
     @JsonIgnoreProperties("usuario")

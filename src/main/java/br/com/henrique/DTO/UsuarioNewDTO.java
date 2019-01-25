@@ -7,7 +7,6 @@ public class UsuarioNewDTO {
     private String cpf;
     private String email;
     private String telefone;
-    private String login;
     private String senha;
     private Integer perfil;
 
@@ -60,13 +59,6 @@ public class UsuarioNewDTO {
         this.telefone = telefone;
     }
 
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
 
     public String getSenha() {
         return senha;

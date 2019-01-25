@@ -41,8 +41,6 @@ public class Usuario implements Serializable {
     @NotEmpty(message = "Preenchimento obrigatorio")
     private String telefone;
 
-    @NotEmpty(message = "Preenchimento obrigatorio")
-    private String login;
 
     @JsonIgnore
     @NotEmpty(message = "Preenchimento obrigatorio")
@@ -50,7 +48,6 @@ public class Usuario implements Serializable {
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name= "PERFIS")
-    @NotNull(message = "Preenchimento obrigatorio")
     private Set<Integer> perfis = new HashSet<>();
 
     @JsonIgnoreProperties("usuario")
@@ -63,14 +60,13 @@ public class Usuario implements Serializable {
     public Usuario() {
     }
 
-    public Usuario(Long id, String nome, String sobrenome, String cpf, String email, String telefone, String login, String senha) {
+    public Usuario(Long id, String nome, String sobrenome, String cpf, String email, String telefone, String senha) {
         this.id = id;
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.cpf = cpf;
         this.email = email;
         this.telefone = telefone;
-        this.login = login;
         this.senha = senha;
         addPerfil(Perfil.CLIENTE);
     }
@@ -123,13 +119,6 @@ public class Usuario implements Serializable {
         this.telefone = telefone;
     }
 
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
 
     public String getSenha() {
         return senha;

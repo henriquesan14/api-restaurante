@@ -1,5 +1,6 @@
 package br.com.henrique.resources.exceptions;
 
+import br.com.henrique.services.exceptions.AuthorizationException;
 import br.com.henrique.services.exceptions.DataIntegrityException;
 import br.com.henrique.services.exceptions.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -36,5 +37,12 @@ public class ResourceExceptionHandler {
             err.addError(x.getField(), x.getDefaultMessage());
         }
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(err);
+    }
+
+    @ExceptionHandler(AuthorizationException.class)
+    public ResponseEntity<StandardError> authorization(AuthorizationException e, HttpServletRequest request) {
+
+        StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.FORBIDDEN.value(), "Acesso negado", e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
     }
 }

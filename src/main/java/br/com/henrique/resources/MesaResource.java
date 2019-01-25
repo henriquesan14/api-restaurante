@@ -42,4 +42,10 @@ public class MesaResource {
                 .path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
+
+    @RequestMapping(value="/{id}", method = RequestMethod.PATCH)
+    public ResponseEntity<Void> updateStatus(@RequestParam(value="value") Integer status, @PathVariable Long id){
+        mesaService.updateStatus(status, id);
+        return ResponseEntity.noContent().build();
+    }
 }

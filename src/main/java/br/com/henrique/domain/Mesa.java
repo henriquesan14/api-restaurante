@@ -55,8 +55,8 @@ public class Mesa implements Serializable {
         return StatusMesa.toEnum(status);
     }
 
-    public void setStatus(StatusMesa status) {
-        this.status = status.getCod();
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public List<Pedido> getPedidos() {

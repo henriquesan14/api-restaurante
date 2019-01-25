@@ -33,4 +33,8 @@ public class MesaService {
         return mesaRepository.save(obj);
     }
 
+    public void updateStatus(Integer status, Long id){
+         mesaRepository.updateStatus(status,id);
+    }
+
 }

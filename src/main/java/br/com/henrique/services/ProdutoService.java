@@ -21,8 +21,14 @@ public class ProdutoService {
     @Autowired
     private ProdutoRepository produtoRepository;
 
-    public List<Produto> findAll(){
-        return produtoRepository.findAll();
+    public Page<Produto> findAll(String nome, Integer page,Integer linesPorPage, String orderBy, String direction){
+        PageRequest pageRequest = PageRequest.of(page,linesPorPage,Sort.Direction.valueOf(direction), orderBy);
+        return produtoRepository.findByNome("%"+nome+"%", pageRequest);
+    }
+
+    public Page<Produto> findByCategoria(Long categoria, String nome, Integer page,Integer linesPorPage, String orderBy, String direction){
+        PageRequest pageRequest = PageRequest.of(page, linesPorPage, Sort.Direction.valueOf(direction), orderBy);
+        return produtoRepository.findByNomeAndCategoria(categoria,"%"+nome+"%", pageRequest);
     }
 
     public Produto find(Long id) {
@@ -59,10 +65,7 @@ public class ProdutoService {
         }
     }
 
-    public Page<Produto> findByCategoria(Long categoria, String nome, Integer page,Integer linesPorPage, String orderBy, String direction){
-        PageRequest pageRequest = PageRequest.of(page, linesPorPage, Sort.Direction.valueOf(direction), orderBy);
-        return produtoRepository.findByNomeAndCategoria(categoria,"%"+nome+"%", pageRequest);
-    }
+
 
 
 }

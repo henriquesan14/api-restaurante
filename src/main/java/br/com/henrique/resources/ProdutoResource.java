@@ -22,12 +22,31 @@ public class ProdutoResource {
     @Autowired
     private ProdutoService produtoService;
 
-//    @RequestMapping(method = RequestMethod.GET)
-//    public ResponseEntity<List<ProdutoDTO>> findAll(){
-//        List<Produto> list = produtoService.findAll();
-//        List<ProdutoDTO> listDto = list.stream().map(obj -> new ProdutoDTO(obj)).collect(Collectors.toList());
-//        return ResponseEntity.ok().body(listDto);
-//    }
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<Page<ProdutoDTO>> findAll(
+            @RequestParam(value = "nome", defaultValue = "") String nome,
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "linesPorPage", defaultValue = "24") Integer linesPorPage,
+            @RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
+            @RequestParam(value = "direction", defaultValue = "ASC") String direction
+    ){
+        Page<Produto> list = produtoService.findAll(nome,page,linesPorPage,orderBy,direction);
+        Page<ProdutoDTO> listDto = list.map(obj -> new ProdutoDTO(obj));
+        return ResponseEntity.ok().body(listDto);
+    }
+
+    @RequestMapping(value="/categoria",method= RequestMethod.GET)
+    public ResponseEntity<Page<ProdutoDTO>> findPage(
+            @RequestParam(value = "categoria") Long idCategoria,
+            @RequestParam(value = "nome", defaultValue = "") String nome,
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "linesPorPage", defaultValue = "24") Integer linesPorPage,
+            @RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
+            @RequestParam(value = "direction", defaultValue = "ASC") String direction) {
+        Page<Produto> list = produtoService.findByCategoria(idCategoria, nome, page, linesPorPage, orderBy, direction);
+        Page<ProdutoDTO> listDto = list.map(obj -> new ProdutoDTO(obj));
+        return ResponseEntity.ok().body(listDto);
+    }
 
     @RequestMapping(value="/{id}", method = RequestMethod.GET)
     public ResponseEntity<Produto> find(@PathVariable Long id){
@@ -58,17 +77,6 @@ public class ProdutoResource {
         produtoService.delete(id);
         return ResponseEntity.noContent().build();
     }
-    @RequestMapping(method= RequestMethod.GET)
-    public ResponseEntity<Page<Produto>> findPage(
-            @RequestParam(value = "categoria") Long idCategoria,
-            @RequestParam(value = "nome", defaultValue = "") String nome,
-            @RequestParam(value = "page", defaultValue = "0") Integer page,
-            @RequestParam(value = "linesPorPage", defaultValue = "24") Integer linesPorPage,
-            @RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
-            @RequestParam(value = "direction", defaultValue = "ASC") String direction) {
-        Page<Produto> list = produtoService.findByCategoria(idCategoria, nome, page, linesPorPage, orderBy, direction);
-//        Page<ProdutoDTO> listDto = list.map(obj -> new ProdutoDTO(obj));
-        return ResponseEntity.ok().body(list);
-    }
+
 
 }

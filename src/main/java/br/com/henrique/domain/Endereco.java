@@ -1,5 +1,8 @@
 package br.com.henrique.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
@@ -24,8 +27,10 @@ public class Endereco implements Serializable {
     private String complemento;
 
     @NotEmpty(message = "Preenchimento obrigatorio")
+    @Length(min= 9, max=9, message = "Tamanho deve ser no minimo 9 caracteres")
     private String cep;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;

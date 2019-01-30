@@ -20,7 +20,6 @@ public class Mesa implements Serializable {
     @NotEmpty(message = "Preenchimento obrigatorio")
     private String nome;
 
-    @NotNull(message = "Preenchimento obrigatorio" )
     private Integer status;
 
     @OneToMany(mappedBy = "mesa")
@@ -29,10 +28,10 @@ public class Mesa implements Serializable {
     public Mesa() {
     }
 
-    public Mesa(Long id, String nome, StatusMesa status) {
+    public Mesa(Long id, String nome) {
         this.id = id;
         this.nome = nome;
-        this.status = status.getCod();
+        this.status = StatusMesa.DISPONIVEL.getCod();
     }
 
     public Long getId() {

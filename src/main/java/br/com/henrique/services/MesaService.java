@@ -30,6 +30,7 @@ public class MesaService {
 
     public Mesa insert(Mesa obj){
         obj.setId(null);
+        obj.setStatus(1);
         return mesaRepository.save(obj);
     }
 

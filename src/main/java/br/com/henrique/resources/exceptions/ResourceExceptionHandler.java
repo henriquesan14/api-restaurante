@@ -3,6 +3,7 @@ package br.com.henrique.resources.exceptions;
 import br.com.henrique.services.exceptions.AuthorizationException;
 import br.com.henrique.services.exceptions.DataIntegrityException;
 import br.com.henrique.services.exceptions.ObjectNotFoundException;
+import br.com.henrique.services.exceptions.PasswordInvalidException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -44,5 +45,12 @@ public class ResourceExceptionHandler {
 
         StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.FORBIDDEN.value(), "Acesso negado", e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
+    }
+
+    @ExceptionHandler(PasswordInvalidException.class)
+    public ResponseEntity<StandardError> passwordInvalid(PasswordInvalidException e, HttpServletRequest request) {
+
+        StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.UNPROCESSABLE_ENTITY.value(), "Erro de validação", e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(err);
     }
 }

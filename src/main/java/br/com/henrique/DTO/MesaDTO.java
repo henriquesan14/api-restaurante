@@ -1,6 +1,7 @@
 package br.com.henrique.DTO;
 
 import br.com.henrique.domain.Mesa;
+import br.com.henrique.domain.enums.StatusMesa;
 
 import java.io.Serializable;
 
@@ -9,7 +10,7 @@ public class MesaDTO implements Serializable {
 
     private Long id;
     private String nome;
-    private String status;
+    private StatusMesa status;
 
     public MesaDTO() {
     }
@@ -17,7 +18,7 @@ public class MesaDTO implements Serializable {
     public MesaDTO(Mesa obj){
         this.id = obj.getId();
         this.nome = obj.getNome();
-        this.status = obj.getStatus().getDescricao();
+        this.status = obj.getStatus();
     }
 
     public Long getId() {
@@ -28,7 +29,7 @@ public class MesaDTO implements Serializable {
         return nome;
     }
 
-    public String getStatus() {
+    public StatusMesa getStatus() {
         return status;
     }
 }

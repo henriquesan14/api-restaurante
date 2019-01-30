@@ -10,7 +10,7 @@ public class CategoriaDTO implements Serializable {
 
     private Long id;
     private String nome;
-    private String tipoCategoria;
+    private TipoCategoria tipoCategoria;
 
     public CategoriaDTO() {
     }
@@ -18,7 +18,7 @@ public class CategoriaDTO implements Serializable {
     public CategoriaDTO(Categoria obj) {
         this.id = obj.getId();
         this.nome = obj.getNome();
-        this.tipoCategoria = obj.getTipoCategoria().getDescricao();
+        this.tipoCategoria = obj.getTipoCategoria();
     }
 
     public Long getId() {
@@ -37,11 +37,11 @@ public class CategoriaDTO implements Serializable {
         this.nome = nome;
     }
 
-    public String getTipoCategoria() {
+    public TipoCategoria getTipoCategoria() {
         return tipoCategoria;
     }
 
-    public void setTipoCategoria(String tipoCategoria) {
+    public void setTipoCategoria(TipoCategoria tipoCategoria) {
         this.tipoCategoria = tipoCategoria;
     }
 }

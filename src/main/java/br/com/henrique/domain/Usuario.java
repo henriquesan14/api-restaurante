@@ -23,27 +23,13 @@ public class Usuario implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotEmpty(message = "Preenchimento obrigatorio")
     private String nome;
-
-    @NotEmpty(message = "Preenchimento obrigatorio")
     private String sobrenome;
-
-    @CPF
-    @NotEmpty(message = "Preenchimento obrigatorio")
     private String cpf;
-
-    @NotEmpty(message = "Preenchimento obrigatorio")
-    @Email
     private String email;
-
-    @NotEmpty(message = "Preenchimento obrigatorio")
     private String telefone;
 
-
     @JsonIgnore
-    @NotEmpty(message = "Preenchimento obrigatorio")
     private String senha;
 
     @ElementCollection(fetch = FetchType.EAGER)

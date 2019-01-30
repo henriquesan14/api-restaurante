@@ -1,22 +1,63 @@
 package br.com.henrique.DTO;
 
-public class UsuarioNewDTO {
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.br.CPF;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
+
+public class UsuarioNewDTO implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    private Long id;
+
+    @NotEmpty(message = "Preenchimento obrigatorio")
     private String nome;
+
+    @NotEmpty(message = "Preenchimento obrigatorio")
     private String sobrenome;
+
+    @CPF
+    @NotEmpty(message = "Preenchimento obrigatorio")
     private String cpf;
+
+    @NotEmpty(message = "Preenchimento obrigatorio")
+    @Email
     private String email;
+
+    @NotEmpty(message = "Preenchimento obrigatorio")
+    @Length(min= 11, max=11, message = "Tamanho deve ser no minimo 11 caracteres")
     private String telefone;
+
+    @NotEmpty(message = "Preenchimento obrigatorio")
+    @Length(min= 6, message = "Tamanho deve ser no minimo 6 caracteres")
     private String senha;
+
     private Integer perfil;
 
+    @NotEmpty(message = "Preenchimento obrigatorio")
     private String logradouro;
+    @NotEmpty(message = "Preenchimento obrigatorio")
     private String numero;
+    @NotEmpty(message = "Preenchimento obrigatorio")
     private String bairro;
+
     private String complemento;
+
+    @NotEmpty(message = "Preenchimento obrigatorio")
+    @Length(min= 9, max=9, message = "Tamanho deve ser no minimo 9 caracteres")
     private String cep;
 
     public UsuarioNewDTO() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNome() {

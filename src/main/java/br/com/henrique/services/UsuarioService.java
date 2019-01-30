@@ -95,6 +95,19 @@ public class UsuarioService {
         return end;
     }
 
+    public void deleteEndereco(Long idUsuario, Long idEndereco){
+        UserSS user= UserService.authenticated();
+
+        if(user==null || !user.hasRole(Perfil.ADMIN) && !idUsuario.equals(user.getId())){
+            throw new AuthorizationException("Acesso negado");
+        }
+        Usuario usuario = usuarioRepository.findById(idUsuario).orElseThrow(
+                () -> new ObjectNotFoundException("Objeto não encontrado! Id: " + idUsuario + ", Tipo: " + Usuario.class.getName()));
+        Endereco end = enderecoRepository.findByIdAndUsuario(idEndereco,idUsuario).orElseThrow(
+                () -> new ObjectNotFoundException("Objeto não encontrado! Id: " + idEndereco + ", Tipo: " + Endereco.class.getName()));
+        enderecoRepository.deleteById(end.getId());
+    }
+
     public Endereco insertEndereco(Long idUsuario, Endereco obj){
         UserSS user= UserService.authenticated();
 

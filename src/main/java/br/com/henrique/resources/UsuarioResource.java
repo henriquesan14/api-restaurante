@@ -55,6 +55,7 @@ public class UsuarioResource {
         usuarioService.updatePassword(objDto);
         return ResponseEntity.noContent().build();
     }
+    
 
     @PreAuthorize("hasAnyRole('ADMIN')")
     @RequestMapping(method = RequestMethod.POST)
@@ -77,6 +78,12 @@ public class UsuarioResource {
     @RequestMapping(value="/{idUsuario}/enderecos/{idEndereco}", method = RequestMethod.PUT)
     public ResponseEntity<Void> updateEndereco(@PathVariable Long idUsuario, @PathVariable Long idEndereco,@Valid @RequestBody Endereco obj){
         usuarioService.updateEndereco(idUsuario, idEndereco, obj);
+        return ResponseEntity.noContent().build();
+    }
+
+    @RequestMapping(value="/{idUsuario}/enderecos/{idEndereco}", method = RequestMethod.DELETE)
+    public ResponseEntity<Void> deleteEndereco(@PathVariable Long idUsuario, @PathVariable Long idEndereco){
+        usuarioService.deleteEndereco(idUsuario, idEndereco);
         return ResponseEntity.noContent().build();
     }
 }

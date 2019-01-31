@@ -5,6 +5,9 @@ import br.com.henrique.DTO.UsuarioDTO;
 import br.com.henrique.DTO.UsuarioNewDTO;
 import br.com.henrique.domain.Endereco;
 import br.com.henrique.domain.Usuario;
+import br.com.henrique.security.JWTUtil;
+import br.com.henrique.security.UserSS;
+import br.com.henrique.services.UserService;
 import br.com.henrique.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
@@ -20,6 +24,9 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioResource {
+
+    @Autowired
+    private JWTUtil jwtUtil;
 
     @Autowired
     private UsuarioService usuarioService;
@@ -48,6 +55,19 @@ public class UsuarioResource {
     public ResponseEntity<Endereco> findEndereco(@PathVariable Long idUsuario, @PathVariable Long idEndereco){
         Endereco obj = usuarioService.findEndereco(idUsuario, idEndereco);
         return ResponseEntity.ok().body(obj);
+    }
+
+    @RequestMapping(value="/{id}", method= RequestMethod.PUT)
+    public ResponseEntity<Void> update(@PathVariable Long id, @Valid @RequestBody UsuarioDTO objDto, HttpServletResponse response){
+        Usuario obj = usuarioService.fromDto(objDto);
+        usuarioService.update(id, obj);
+        UserSS user = UserService.authenticated();
+        if(user.getId().equals(id)) {
+            String token = jwtUtil.generateToken(objDto.getEmail());
+            response.addHeader("Authorization", "Bearer " + token);
+            response.addHeader("access-control-expose-headers", "Authorization");
+        }
+        return ResponseEntity.noContent().build();
     }
 
     @RequestMapping(value="/password", method = RequestMethod.PUT)

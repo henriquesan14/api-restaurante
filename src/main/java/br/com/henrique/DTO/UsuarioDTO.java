@@ -1,7 +1,13 @@
 package br.com.henrique.DTO;
 
 import br.com.henrique.domain.Usuario;
+import br.com.henrique.domain.enums.Perfil;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.br.CPF;
 
+import javax.persistence.Column;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 public class UsuarioDTO implements Serializable {
@@ -9,11 +15,25 @@ public class UsuarioDTO implements Serializable {
 
     private Long id;
 
+    @NotEmpty(message = "Preenchimento obrigatorio")
     private String nome;
+
+    @NotEmpty(message = "Preenchimento obrigatorio")
     private String sobrenome;
+
+    @CPF(message = "CPF inválido")
+    @NotEmpty(message = "Preenchimento obrigatorio")
     private String cpf;
+
+    @Column(unique = true)
+    @NotEmpty(message = "Preenchimento obrigatorio")
+    @Email(message= "Email inválido")
     private String email;
+
+    @NotEmpty(message = "Preenchimento obrigatorio")
+    @Length(min= 11, max=11, message = "Tamanho deve ser no minimo 11 caracteres")
     private String telefone;
+    
 
     public UsuarioDTO() {
     }

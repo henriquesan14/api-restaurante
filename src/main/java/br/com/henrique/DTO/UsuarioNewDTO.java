@@ -3,6 +3,7 @@ package br.com.henrique.DTO;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
 
+import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
@@ -18,12 +19,13 @@ public class UsuarioNewDTO implements Serializable {
     @NotEmpty(message = "Preenchimento obrigatorio")
     private String sobrenome;
 
-    @CPF
+    @CPF(message = "CPF inválido")
     @NotEmpty(message = "Preenchimento obrigatorio")
     private String cpf;
 
+    @Column(unique = true)
     @NotEmpty(message = "Preenchimento obrigatorio")
-    @Email
+    @Email(message= "Email inválido")
     private String email;
 
     @NotEmpty(message = "Preenchimento obrigatorio")

@@ -1,6 +1,7 @@
 package br.com.henrique.services;
 
 import br.com.henrique.DTO.NewSenhaDTO;
+import br.com.henrique.DTO.UsuarioDTO;
 import br.com.henrique.DTO.UsuarioNewDTO;
 import br.com.henrique.domain.Endereco;
 import br.com.henrique.domain.Usuario;
@@ -9,8 +10,10 @@ import br.com.henrique.repositories.EnderecoRepository;
 import br.com.henrique.repositories.UsuarioRepository;
 import br.com.henrique.security.UserSS;
 import br.com.henrique.services.exceptions.AuthorizationException;
+import br.com.henrique.services.exceptions.EmailExistenteException;
 import br.com.henrique.services.exceptions.ObjectNotFoundException;
 import br.com.henrique.services.exceptions.PasswordInvalidException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -60,8 +63,27 @@ public class UsuarioService {
     }
 
     public Usuario insert(Usuario obj){
+        UserSS user = UserService.authenticated();
         obj.setId(null);
+        if(user.getUsername().equals(obj.getEmail())){
+            throw new EmailExistenteException("Email já existente");
+        }
         return usuarioRepository.save(obj);
+    }
+
+    public Usuario update(Long id, Usuario obj){
+        Usuario newObj = find(id);
+        UserSS user= UserService.authenticated();
+        Usuario us = usuarioRepository.findByEmail(obj.getEmail());
+        if(user==null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())){
+            throw new AuthorizationException("Acesso negado");
+        }
+        obj.setId(id);
+        if(us != null && !us.getId().equals(obj.getId())){
+            throw new EmailExistenteException("Email já existente");
+        }
+        updateData(newObj, obj);
+        return usuarioRepository.save(newObj);
     }
 
     public Usuario updatePassword(NewSenhaDTO objDto){
@@ -136,13 +158,27 @@ public class UsuarioService {
         return enderecoRepository.save(obj);
     }
 
+    public Usuario fromDto(UsuarioDTO objDto){
+        return new Usuario(objDto.getId(), objDto.getNome(), objDto.getSobrenome(), null,objDto.getEmail(), objDto.getTelefone(),null);
+    }
+
     public Usuario fromDto(UsuarioNewDTO objDto){
         Usuario us = new Usuario(null, objDto.getNome(),objDto.getSobrenome(),objDto.getCpf(),objDto.getEmail(),objDto.getTelefone(), pe.encode(objDto.getSenha()));
         Endereco end = new Endereco(null,objDto.getLogradouro(),objDto.getNumero(),objDto.getBairro(),objDto.getComplemento(),objDto.getCep(),us);
         us.getEnderecos().add(end);
-        us.addPerfil(Perfil.toEnum(objDto.getPerfil()));
+        if(objDto.getPerfil()!=null){
+            us.addPerfil(Perfil.toEnum(objDto.getPerfil()));
+        }
         return us;
     }
+
+    private void updateData(Usuario newObj, Usuario obj){
+        newObj.setNome(obj.getNome());
+        newObj.setSobrenome(obj.getSobrenome());
+        newObj.setTelefone(obj.getTelefone());
+        newObj.setEmail(obj.getEmail());
+    }
+
 
 
 

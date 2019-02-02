@@ -8,7 +8,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
-public class UsuarioNewDTO implements Serializable {
+public class ClienteDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
@@ -41,7 +41,6 @@ public class UsuarioNewDTO implements Serializable {
     @Length(min= 6, message = "Tamanho deve ser no minimo 6 caracteres")
     private String confirmSenha;
 
-    private Integer perfil;
 
     @NotEmpty(message = "Preenchimento obrigatorio")
     private String logradouro;
@@ -56,7 +55,7 @@ public class UsuarioNewDTO implements Serializable {
     @Length(min= 9, max=9, message = "Tamanho deve ser no minimo 9 caracteres")
     private String cep;
 
-    public UsuarioNewDTO() {
+    public ClienteDTO() {
     }
 
     public Long getId() {
@@ -122,14 +121,6 @@ public class UsuarioNewDTO implements Serializable {
 
     public void setConfirmSenha(String confirmSenha) {
         this.confirmSenha = confirmSenha;
-    }
-
-    public Integer getPerfil() {
-        return perfil;
-    }
-
-    public void setPerfil(Integer perfil) {
-        this.perfil = perfil;
     }
 
     public String getLogradouro() {

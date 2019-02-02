@@ -30,10 +30,13 @@ public class UsuarioDTO implements Serializable {
     @Email(message= "Email inválido")
     private String email;
 
+
     @NotEmpty(message = "Preenchimento obrigatorio")
-    @Length(min= 11, max=11, message = "Tamanho deve ser no minimo 11 caracteres")
+    @Length(min= 11, max=14, message = "Tamanho deve ser no minimo 11 caracteres")
     private String telefone;
-    
+
+    private Integer perfil;
+
 
     public UsuarioDTO() {
     }
@@ -44,6 +47,16 @@ public class UsuarioDTO implements Serializable {
         this.cpf = obj.getCpf();
         this.email = obj.getEmail();
         this.telefone = obj.getTelefone();
+        Integer perfil = null;
+        for(Perfil p: obj.getPerfis()){
+            if(p.equals(Perfil.ADMIN) || p.equals(Perfil.GARCOM) || p.equals(Perfil.COZINHEIRO)){
+                perfil = p.getCod();
+                break;
+            }else{
+                perfil = Perfil.CLIENTE.getCod();
+            }
+        }
+        this.perfil = perfil;
     }
 
     public Long getId() {
@@ -92,5 +105,13 @@ public class UsuarioDTO implements Serializable {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+
+    public Perfil getPerfil() {
+        return Perfil.toEnum(perfil);
+    }
+
+    public void setPerfil(Integer perfil) {
+        this.perfil = perfil;
     }
 }

@@ -59,16 +59,16 @@ public class App implements CommandLineRunner {
         categoriaRepository.saveAll(Arrays.asList(c1,c2));
         produtoRepository.saveAll(Arrays.asList(p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11));
 
-        Usuario u = new Usuario(null,"Henrique","Santos","01782804455","henrique@gmail.com","81999999999",pe.encode("123456"));
+        Usuario u = new Usuario(null,"Henrique","Santos","017.828.044-55","henrique@gmail.com","(81)99999-9999",pe.encode("123456"));
         Endereco e = new Endereco(null,"Rua das flores","123","Centro","","58328-000",u);
         u.getEnderecos().add(e);
         u.addPerfil(Perfil.ADMIN);
 
-        Usuario u3 = new Usuario(null,"Garçom","Santos","01782804455","gg@gmail.com","81999999999",pe.encode("123456"));
+        Usuario u3 = new Usuario(null,"Garçom","Santos","017.828.044-55","gg@gmail.com","(81)99999-9999",pe.encode("123456"));
         u3.getEnderecos().add(e);
         u3.addPerfil(Perfil.GARCOM);
 
-        Usuario u2 = new Usuario(null,"Xablau","Santos","01782804455","xablau@gmail.com","81999999999",pe.encode("123456"));
+        Usuario u2 = new Usuario(null,"Xablau","Santos","017.828.044-55","xablau@gmail.com","(81)99999-9999",pe.encode("123456"));
         Endereco e2 = new Endereco(null,"Rua do sol","547","Mangueira","Apto 505","58214-000",u2);
         u2.getEnderecos().add(e2);
         u2.addPerfil(Perfil.CLIENTE);

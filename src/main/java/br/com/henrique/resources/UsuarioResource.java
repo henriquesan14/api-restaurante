@@ -62,7 +62,7 @@ public class UsuarioResource {
         Usuario obj = usuarioService.fromDto(objDto);
         usuarioService.update(id, obj);
         UserSS user = UserService.authenticated();
-        if(user.getId().equals(id)) {
+        if(user.getId().equals(id) && !user.getUsername().equals(objDto.getEmail())) {
             String token = jwtUtil.generateToken(objDto.getEmail());
             response.addHeader("Authorization", "Bearer " + token);
             response.addHeader("access-control-expose-headers", "Authorization");

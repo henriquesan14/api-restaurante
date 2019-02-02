@@ -1,5 +1,6 @@
 package br.com.henrique.services;
 
+import br.com.henrique.DTO.ClienteDTO;
 import br.com.henrique.DTO.NewSenhaDTO;
 import br.com.henrique.DTO.UsuarioDTO;
 import br.com.henrique.DTO.UsuarioNewDTO;
@@ -65,7 +66,8 @@ public class UsuarioService {
     public Usuario insert(Usuario obj){
         UserSS user = UserService.authenticated();
         obj.setId(null);
-        if(user.getUsername().equals(obj.getEmail())){
+        Usuario us = usuarioRepository.findByEmail(obj.getEmail());
+        if(us != null){
             throw new EmailExistenteException("Email já existente");
         }
         return usuarioRepository.save(obj);
@@ -166,8 +168,21 @@ public class UsuarioService {
         Usuario us = new Usuario(null, objDto.getNome(),objDto.getSobrenome(),objDto.getCpf(),objDto.getEmail(),objDto.getTelefone(), pe.encode(objDto.getSenha()));
         Endereco end = new Endereco(null,objDto.getLogradouro(),objDto.getNumero(),objDto.getBairro(),objDto.getComplemento(),objDto.getCep(),us);
         us.getEnderecos().add(end);
+        if(!objDto.getSenha().equals(objDto.getConfirmSenha())){
+            throw new PasswordInvalidException("Senha e confirmação de senha não conferem");
+        }
         if(objDto.getPerfil()!=null){
             us.addPerfil(Perfil.toEnum(objDto.getPerfil()));
+        }
+        return us;
+    }
+
+    public Usuario fromDto(ClienteDTO objDto){
+        Usuario us = new Usuario(null, objDto.getNome(),objDto.getSobrenome(),objDto.getCpf(),objDto.getEmail(),objDto.getTelefone(), pe.encode(objDto.getSenha()));
+        Endereco end = new Endereco(null,objDto.getLogradouro(),objDto.getNumero(),objDto.getBairro(),objDto.getComplemento(),objDto.getCep(),us);
+        us.getEnderecos().add(end);
+        if(!objDto.getSenha().equals(objDto.getConfirmSenha())){
+            throw new PasswordInvalidException("Senha e confirmação de senha não conferem");
         }
         return us;
     }

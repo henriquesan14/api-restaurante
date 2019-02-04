@@ -5,6 +5,7 @@ import br.com.henrique.DTO.UsuarioDTO;
 import br.com.henrique.DTO.UsuarioNewDTO;
 import br.com.henrique.domain.Endereco;
 import br.com.henrique.domain.Usuario;
+import br.com.henrique.domain.enums.Perfil;
 import br.com.henrique.security.JWTUtil;
 import br.com.henrique.security.UserSS;
 import br.com.henrique.services.UserService;
@@ -69,6 +70,7 @@ public class UsuarioResource {
         }
         return ResponseEntity.noContent().build();
     }
+
 
     @RequestMapping(value="/password", method = RequestMethod.PUT)
     public ResponseEntity<Void> updatePassword(@Valid @RequestBody NewSenhaDTO objDto){

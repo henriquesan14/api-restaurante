@@ -18,7 +18,7 @@ public class Produto implements Serializable {
     @NotEmpty(message="Preenchimento obrigatorio")
     private String nome;
 
-    @Positive(message="Preço não pode ser negativo")
+    @Positive(message="Preço deve ser maior que 0")
     @NotNull(message="Preenchimento obrigatorio")
     private BigDecimal preco;
 

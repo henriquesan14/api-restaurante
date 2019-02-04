@@ -1,6 +1,7 @@
 package br.com.henrique.domain;
 
 import br.com.henrique.domain.enums.StatusMesa;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -22,6 +23,7 @@ public class Mesa implements Serializable {
 
     private Integer status;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "mesa")
     private List<Pedido> pedidos = new ArrayList<>();
 
@@ -54,8 +56,9 @@ public class Mesa implements Serializable {
         return StatusMesa.toEnum(status);
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setStatus(StatusMesa status) {
+
+        this.status = status.getCod();
     }
 
     public List<Pedido> getPedidos() {

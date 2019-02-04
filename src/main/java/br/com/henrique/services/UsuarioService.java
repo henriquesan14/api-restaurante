@@ -88,6 +88,8 @@ public class UsuarioService {
         return usuarioRepository.save(newObj);
     }
 
+
+
     public Usuario updatePassword(NewSenhaDTO objDto){
         UserSS user = UserService.authenticated();
         Usuario usuario = usuarioRepository.findByEmail(user.getUsername());

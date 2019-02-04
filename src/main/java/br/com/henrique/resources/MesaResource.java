@@ -43,6 +43,21 @@ public class MesaResource {
         return ResponseEntity.created(uri).build();
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @RequestMapping(value="/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody Mesa obj){
+        obj.setId(id);
+        mesaService.update(obj);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @RequestMapping(value="/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        mesaService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
     @RequestMapping(value="/{id}", method = RequestMethod.PATCH)
     public ResponseEntity<Void> updateStatus(@RequestParam(value="value") Integer status, @PathVariable Long id){
         mesaService.updateStatus(status, id);

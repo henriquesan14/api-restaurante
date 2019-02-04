@@ -61,7 +61,7 @@ public class ProdutoService {
         try{
             produtoRepository.delete(obj);
         }catch(DataIntegrityViolationException e){
-            throw new DataIntegrityException("Não é possivel excluir um produto que possui itens pedidos");
+            throw new DataIntegrityException("Não é possivel apagar um produto vinculado a algum pedido");
         }
     }
 

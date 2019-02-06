@@ -34,6 +34,12 @@ public class CategoriaResource {
         return ResponseEntity.ok().body(obj);
     }
 
+    @RequestMapping(value= "/tipo", method = RequestMethod.GET)
+    public ResponseEntity<List<Categoria>> findByTipo(@RequestParam Integer tipo){
+        List<Categoria> list = categoriaService.findByTipo(tipo);
+        return ResponseEntity.ok().body(list);
+    }
+
 
     @PreAuthorize("hasAnyRole('ADMIN')")
     @RequestMapping(method = RequestMethod.POST)

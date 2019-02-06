@@ -1,6 +1,7 @@
 package br.com.henrique.services;
 
 import br.com.henrique.domain.Categoria;
+import br.com.henrique.domain.enums.TipoCategoria;
 import br.com.henrique.repositories.CategoriaRepository;
 import br.com.henrique.services.exceptions.DataIntegrityException;
 import br.com.henrique.services.exceptions.ObjectNotFoundException;
@@ -26,6 +27,10 @@ public class CategoriaService {
 
     public List<Categoria> findAll(){
         return categoriaRepository.findAll();
+    }
+
+    public List<Categoria> findByTipo(Integer tipo){
+        return categoriaRepository.findByTipoCategoria(tipo);
     }
 
     public Categoria insert(Categoria obj){

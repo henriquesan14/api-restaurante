@@ -63,4 +63,10 @@ public class MesaResource {
         mesaService.updateStatus(status, id);
         return ResponseEntity.noContent().build();
     }
+
+    @RequestMapping(value="/status", method = RequestMethod.GET)
+    public ResponseEntity<List<Mesa>> findByStatus(@RequestParam Integer status){
+        List<Mesa> list = mesaService.findStatus(status);
+        return ResponseEntity.ok().body(list);
+    }
 }

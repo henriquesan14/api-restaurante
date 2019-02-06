@@ -32,6 +32,10 @@ public class MesaService {
                 "Objeto não encontrado! Id: "+id+", Tipo: "+Mesa.class.getName()));
     }
 
+    public List<Mesa> findStatus(Integer status){
+        return mesaRepository.findByStatus(status);
+    }
+
     public Mesa insert(Mesa obj){
         obj.setId(null);
         obj.setStatus(StatusMesa.DISPONIVEL);

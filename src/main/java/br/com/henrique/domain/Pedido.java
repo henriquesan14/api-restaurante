@@ -23,7 +23,6 @@ public class Pedido implements Serializable {
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private Date data;
 
-    @NotNull(message = "Preenchimento obrigatorio")
     private Integer status;
 
     @JsonIgnoreProperties("pedidos")
@@ -40,7 +39,6 @@ public class Pedido implements Serializable {
     @JsonIgnoreProperties("pedidos")
     @ManyToOne
     @JoinColumn(name="funcionario_id")
-    @NotNull(message = "Preenchimento obrigatorio")
     private Usuario funcionario;
 
     @NotNull(message = "Preenchimento obrigatorio")

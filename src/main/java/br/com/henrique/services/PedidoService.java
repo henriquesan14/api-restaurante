@@ -3,6 +3,7 @@ package br.com.henrique.services;
 import br.com.henrique.domain.Pedido;
 import br.com.henrique.domain.Usuario;
 import br.com.henrique.domain.enums.Perfil;
+import br.com.henrique.domain.enums.StatusPedido;
 import br.com.henrique.repositories.PedidoRepository;
 import br.com.henrique.security.UserSS;
 import br.com.henrique.services.exceptions.AuthorizationException;
@@ -31,8 +32,11 @@ public class PedidoService {
     }
 
     public Pedido insert(Pedido obj){
+        Usuario us = usuarioService.find(UserService.authenticated().getId());
         obj.setId(null);
         obj.setData(new Date());
+        obj.setFuncionario(us);
+        obj.setStatus(StatusPedido.PENDENTE);
         obj.getItens().parallelStream().forEach(i -> i.setPedido(obj));
         return pedidoRepository.save(obj);
     }

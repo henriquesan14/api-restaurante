@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Repository
 public interface MesaRepository extends JpaRepository<Mesa, Long> {
 
@@ -14,4 +16,6 @@ public interface MesaRepository extends JpaRepository<Mesa, Long> {
     @Modifying
     @Query("UPDATE Mesa m SET m.status=?1 WHERE m.id=?2")
     void updateStatus(Integer status, Long id);
+
+    List<Mesa> findByStatus(Integer status);
 }

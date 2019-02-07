@@ -29,7 +29,7 @@ public class PedidoDTO implements Serializable {
         this.data = obj.getData();
         this.status  = obj.getStatus().getDescricao();
         this.mesa = obj.getMesa().getNome();
-        this.cliente = obj.getCliente().getNome();
+        this.cliente = (obj.getCliente()==null) ? null : obj.getCliente().getNome();
         this.funcionario = obj.getFuncionario().getNome();
         this.valorTotal = obj.getValorTotal();
     }

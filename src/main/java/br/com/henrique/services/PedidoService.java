@@ -27,6 +27,7 @@ public class PedidoService {
     @Autowired
     private UsuarioService usuarioService;
 
+
     public List<Pedido> findAll(){
         return pedidoRepository.findAll();
     }

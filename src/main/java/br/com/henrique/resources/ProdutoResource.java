@@ -36,7 +36,7 @@ public class ProdutoResource {
     }
 
     @RequestMapping(value="/categoria",method= RequestMethod.GET)
-    public ResponseEntity<Page<ProdutoDTO>> findPage(
+    public ResponseEntity<Page<Produto>> findPage(
             @RequestParam(value = "categoria") Long idCategoria,
             @RequestParam(value = "nome", defaultValue = "") String nome,
             @RequestParam(value = "page", defaultValue = "0") Integer page,
@@ -44,8 +44,8 @@ public class ProdutoResource {
             @RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
             @RequestParam(value = "direction", defaultValue = "ASC") String direction) {
         Page<Produto> list = produtoService.findByCategoria(idCategoria, nome, page, linesPorPage, orderBy, direction);
-        Page<ProdutoDTO> listDto = list.map(obj -> new ProdutoDTO(obj));
-        return ResponseEntity.ok().body(listDto);
+//        Page<ProdutoDTO> listDto = list.map(obj -> new ProdutoDTO(obj));
+        return ResponseEntity.ok().body(list);
     }
 
     @RequestMapping(value="/{id}", method = RequestMethod.GET)

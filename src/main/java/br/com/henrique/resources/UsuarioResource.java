@@ -52,6 +52,14 @@ public class UsuarioResource {
         return ResponseEntity.ok().body(obj);
     }
 
+
+    @PreAuthorize("hasAnyRole('ADMIN','COZINHEIRO','GARCOM')")
+    @RequestMapping(value="/cliente", method =RequestMethod.GET)
+    public ResponseEntity<List<Usuario>> findLikeEmail(@RequestParam(value="email") String email){
+        List<Usuario> list = usuarioService.findLikeEmail(email);
+        return ResponseEntity.ok().body(list);
+    }
+
     @RequestMapping(value="/{idUsuario}/enderecos/{idEndereco}", method = RequestMethod.GET)
     public ResponseEntity<Endereco> findEndereco(@PathVariable Long idUsuario, @PathVariable Long idEndereco){
         Endereco obj = usuarioService.findEndereco(idUsuario, idEndereco);

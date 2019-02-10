@@ -63,6 +63,10 @@ public class UsuarioService {
         return obj;
     }
 
+    public List<Usuario> findLikeEmail(String email){
+        return usuarioRepository.findLikeEmail("%"+email+"%");
+    }
+
     public Usuario insert(Usuario obj){
         UserSS user = UserService.authenticated();
         obj.setId(null);

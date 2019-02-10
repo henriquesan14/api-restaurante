@@ -45,6 +45,8 @@ public class Pedido implements Serializable {
     @OneToMany(mappedBy = "id.pedido", cascade = CascadeType.ALL)
     private Set<ItemPedido> itens = new HashSet<>();
 
+    private BigDecimal valorTotal;
+
     public Pedido() {
     }
 
@@ -57,12 +59,12 @@ public class Pedido implements Serializable {
         this.funcionario = funcionario;
     }
 
-    public BigDecimal getValorTotal(){
+    public void calculaTotal(){
         BigDecimal soma = BigDecimal.ZERO;
         for(ItemPedido ip: itens){
             soma = soma.add(ip.getSubTotal());
         }
-        return soma;
+        this.valorTotal = soma;
     }
 
     public Long getId() {
@@ -119,6 +121,14 @@ public class Pedido implements Serializable {
 
     public void setItens(Set<ItemPedido> itens) {
         this.itens = itens;
+    }
+
+    public BigDecimal getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(BigDecimal valorTotal) {
+        this.valorTotal = valorTotal;
     }
 
     @Override

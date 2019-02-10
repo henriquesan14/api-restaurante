@@ -1,5 +1,6 @@
 package br.com.henrique.services;
 
+import br.com.henrique.domain.ItemPedido;
 import br.com.henrique.domain.Pedido;
 import br.com.henrique.domain.Usuario;
 import br.com.henrique.domain.enums.Perfil;
@@ -39,18 +40,17 @@ public class PedidoService {
         obj.setFuncionario(us);
         obj.setStatus(StatusPedido.PENDENTE);
         obj.getItens().parallelStream().forEach(i -> i.setPedido(obj));
+        obj.calculaTotal();
         return pedidoRepository.save(obj);
     }
 
     public Pedido find(Long id){
         UserSS user= UserService.authenticated();
-        if(user.isCliente() && !id.equals(user.getId()) ){
+        Pedido obj = pedidoRepository.findById(id).orElseThrow( () -> new ObjectNotFoundException("Objeto não encontrado! Id: "+id+", Tipo: "+Pedido.class.getName()));
+        if(user.isCliente() && !obj.getCliente().getId().equals(user.getId()) ) {
             throw new AuthorizationException("Acesso negado");
         }
-
-        Optional<Pedido> obj = pedidoRepository.findById(id);
-        return obj.orElseThrow(() -> new ObjectNotFoundException(
-                "Objeto não encontrado! Id: "+id+", Tipo: "+Pedido.class.getName()));
+        return obj;
     }
 
 
@@ -66,4 +66,5 @@ public class PedidoService {
         PageRequest pageRequest = PageRequest.of(page, linesPorPage, Sort.Direction.valueOf(direction), orderBy);
         return pedidoRepository.findByCliente(user.getId(),pageRequest);
     }
+
 }

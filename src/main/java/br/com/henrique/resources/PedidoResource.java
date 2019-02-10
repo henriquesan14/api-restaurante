@@ -1,15 +1,18 @@
 package br.com.henrique.resources;
 
 import br.com.henrique.DTO.PedidoDTO;
+import br.com.henrique.domain.ItemPedido;
 import br.com.henrique.domain.Pedido;
 import br.com.henrique.services.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/pedidos")
@@ -51,4 +54,6 @@ public class PedidoResource {
         Page<PedidoDTO> listDto = list.map(obj -> new PedidoDTO(obj));
         return ResponseEntity.ok().body(listDto);
     }
+
+
 }

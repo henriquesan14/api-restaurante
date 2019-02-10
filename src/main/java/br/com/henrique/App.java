@@ -4,6 +4,7 @@ package br.com.henrique;
 import br.com.henrique.domain.*;
 import br.com.henrique.domain.enums.Perfil;
 import br.com.henrique.domain.enums.StatusMesa;
+import br.com.henrique.domain.enums.StatusPedido;
 import br.com.henrique.domain.enums.TipoCategoria;
 import br.com.henrique.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.List;
 
 @SpringBootApplication
 public class App implements CommandLineRunner {
@@ -84,12 +86,14 @@ public class App implements CommandLineRunner {
         ItemPedido i2 = new ItemPedido(ped1,p2,2);
         ped1.getItens().add(i);
         ped1.getItens().add(i2);
+        ped1.calculaTotal();
 
         Pedido ped2= new Pedido(null,sdf.parse("01/05/2019 11:12"),m2,u3,u2);
         ItemPedido i3 = new ItemPedido(ped2,p1,5);
         ItemPedido i4 = new ItemPedido(ped2,p2,5);
         ped2.getItens().add(i3);
         ped2.getItens().add(i4);
+        ped2.calculaTotal();
 
 
         pedidoRepository.saveAll(Arrays.asList(ped1,ped2));

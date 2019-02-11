@@ -1,6 +1,5 @@
 package br.com.henrique.services;
 
-import br.com.henrique.domain.ItemPedido;
 import br.com.henrique.domain.Pedido;
 import br.com.henrique.domain.Usuario;
 import br.com.henrique.domain.enums.Perfil;
@@ -15,9 +14,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PedidoService {
@@ -65,6 +65,17 @@ public class PedidoService {
         }
         PageRequest pageRequest = PageRequest.of(page, linesPorPage, Sort.Direction.valueOf(direction), orderBy);
         return pedidoRepository.findByCliente(user.getId(),pageRequest);
+    }
+
+    public long pedidosDiario() {
+        LocalDate data = LocalDate.now();
+        return pedidoRepository.pedidosDiario(data);
+    }
+
+
+    public BigDecimal totalDiario(){
+        LocalDate data = LocalDate.now();
+        return pedidoRepository.totalDiario(data);
     }
 
 }

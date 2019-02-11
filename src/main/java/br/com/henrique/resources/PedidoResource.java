@@ -1,18 +1,16 @@
 package br.com.henrique.resources;
 
 import br.com.henrique.DTO.PedidoDTO;
-import br.com.henrique.domain.ItemPedido;
 import br.com.henrique.domain.Pedido;
 import br.com.henrique.services.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.math.BigDecimal;
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping("/pedidos")
@@ -55,5 +53,14 @@ public class PedidoResource {
         return ResponseEntity.ok().body(listDto);
     }
 
+    @RequestMapping(value="/count", method = RequestMethod.GET)
+    public long pedidosDiario(){
+        return pedidoService.pedidosDiario();
+    }
+
+    @RequestMapping(value="/total", method = RequestMethod.GET)
+    public BigDecimal totalDiario(){
+        return pedidoService.totalDiario();
+    }
 
 }

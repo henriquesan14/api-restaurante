@@ -1,5 +1,6 @@
 package br.com.henrique.repositories;
 
+import br.com.henrique.domain.ItemPedido;
 import br.com.henrique.domain.Pedido;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Repository
 public interface PedidoRepository extends JpaRepository<Pedido, Long> {
@@ -19,9 +21,19 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
     Page<Pedido> findByCliente(Long id, Pageable pageRequest);
 
     @Query(value = "SELECT COUNT(*) FROM PEDIDO p WHERE CAST(p.data as date) =?1", nativeQuery = true)
-    public long pedidosDiario(LocalDate data);
+    long pedidosDiario(LocalDate data);
 
+    @Query(value = "SELECT COUNT(*) FROM ITEM_PEDIDO I INNER JOIN PEDIDO P ON I.PEDIDO_ID= P.ID WHERE CAST(P.DATA AS DATE) = ?1", nativeQuery = true)
+    long itensDiario(LocalDate data);
 
     @Query(value = "SELECT SUM(p.valor_total) FROM Pedido p WHERE CAST(p.data as date) =?1", nativeQuery = true)
-    public BigDecimal totalDiario(LocalDate data);
+    BigDecimal totalDiario(LocalDate data);
+
+    @Query("SELECT i FROM ItemPedido i WHERE i.statusItem=?1 ORDER BY i.id.pedido.data ASC")
+    List<ItemPedido> itensByStatusItem(Integer status);
+
+    @Query("SELECT COUNT(i) FROM ItemPedido i WHERE i.statusItem=?1")
+    long countItensByStatusItem(Integer status);
+
+
 }

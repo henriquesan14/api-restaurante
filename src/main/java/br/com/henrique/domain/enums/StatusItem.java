@@ -1,14 +1,16 @@
 package br.com.henrique.domain.enums;
 
-public enum StatusPedido {
+public enum StatusItem {
 
     PENDENTE(1, "Pendente"),
-    PAGO(2, "Pago");
+    PRONTO(2, "Pronto"),
+    ENTREGUE(3, "Entregue");
+
 
     private int cod;
     private String descricao;
 
-    StatusPedido(int cod, String descricao) {
+    StatusItem(int cod, String descricao) {
         this.cod = cod;
         this.descricao = descricao;
     }
@@ -21,12 +23,12 @@ public enum StatusPedido {
         return descricao;
     }
 
-    public static StatusPedido toEnum(Integer cod){
+    public static StatusItem toEnum(Integer cod){
         if(cod == null){
             return null;
         }
 
-        for(StatusPedido s: StatusPedido.values()){
+        for(StatusItem s: StatusItem.values()){
             if(cod.equals(s.getCod())){
                 return s;
             }

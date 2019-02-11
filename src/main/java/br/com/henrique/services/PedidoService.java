@@ -1,5 +1,6 @@
 package br.com.henrique.services;
 
+import br.com.henrique.domain.ItemPedido;
 import br.com.henrique.domain.Pedido;
 import br.com.henrique.domain.Usuario;
 import br.com.henrique.domain.enums.Perfil;
@@ -28,6 +29,9 @@ public class PedidoService {
     @Autowired
     private UsuarioService usuarioService;
 
+    @Autowired
+    private ProdutoService produtoService;
+
 
     public List<Pedido> findAll(){
         return pedidoRepository.findAll();
@@ -39,7 +43,11 @@ public class PedidoService {
         obj.setData(new Date());
         obj.setFuncionario(us);
         obj.setStatus(StatusPedido.PENDENTE);
-        obj.getItens().parallelStream().forEach(i -> i.setPedido(obj));
+        obj.getItens().forEach(x -> {
+            x.setPedido(obj);
+            x.setStatusItem(1);
+            x.setProduto(produtoService.find(x.getProduto().getId()));
+        });
         obj.calculaTotal();
         return pedidoRepository.save(obj);
     }
@@ -72,10 +80,22 @@ public class PedidoService {
         return pedidoRepository.pedidosDiario(data);
     }
 
+    public long itensDiario() {
+        LocalDate data = LocalDate.now();
+        return pedidoRepository.itensDiario(data);
+    }
+
 
     public BigDecimal totalDiario(){
         LocalDate data = LocalDate.now();
         return pedidoRepository.totalDiario(data);
     }
 
+    public List<ItemPedido> itensByStatus(Integer status){
+        return pedidoRepository.itensByStatusItem(status);
+    }
+
+    public long countItensByStatusItem(Integer status){
+        return pedidoRepository.countItensByStatusItem(status);
+    }
 }

@@ -1,6 +1,7 @@
 package br.com.henrique.resources;
 
 import br.com.henrique.DTO.PedidoDTO;
+import br.com.henrique.domain.ItemPedido;
 import br.com.henrique.domain.Pedido;
 import br.com.henrique.services.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.math.BigDecimal;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/pedidos")
@@ -58,9 +60,23 @@ public class PedidoResource {
         return pedidoService.pedidosDiario();
     }
 
+    @RequestMapping(value="/itens/count", method = RequestMethod.GET)
+    public long itensDiario(){
+        return pedidoService.itensDiario();
+    }
+
     @RequestMapping(value="/total", method = RequestMethod.GET)
     public BigDecimal totalDiario(){
         return pedidoService.totalDiario();
     }
 
+    @RequestMapping(value="/itens", method = RequestMethod.GET)
+    public List<ItemPedido> demandas(@RequestParam Integer status){
+        return pedidoService.itensByStatus(status);
+    }
+
+    @RequestMapping(value="itens/demandas", method = RequestMethod.GET)
+    public long countItensByStatusItem(@RequestParam Integer status){
+        return pedidoService.countItensByStatusItem(status);
+    }
 }

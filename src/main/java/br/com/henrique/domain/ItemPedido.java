@@ -1,6 +1,8 @@
 package br.com.henrique.domain;
 
+import br.com.henrique.domain.enums.StatusItem;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.EmbeddedId;
@@ -21,6 +23,8 @@ public class ItemPedido implements Serializable {
     @NotNull(message = "Preenchimento obrigatorio")
     private Integer quantidade;
 
+    private Integer statusItem;
+
 
 
     public ItemPedido() {
@@ -30,6 +34,7 @@ public class ItemPedido implements Serializable {
         id.setPedido(pedido);
         id.setProduto(produto);
         this.quantidade = quantidade;
+        this.statusItem = StatusItem.PENDENTE.getCod();
     }
 
     public BigDecimal getSubTotal(){
@@ -37,7 +42,7 @@ public class ItemPedido implements Serializable {
         return id.getProduto().getPreco().multiply(qtd);
     }
 
-    @JsonIgnore
+    @JsonIgnoreProperties({"itens", "cliente", "funcionario"})
     public Pedido getPedido(){
         return id.getPedido();
     }
@@ -70,7 +75,13 @@ public class ItemPedido implements Serializable {
         this.quantidade = quantidade;
     }
 
+    public StatusItem getStatusItem() {
+        return StatusItem.toEnum(statusItem);
+    }
 
+    public void setStatusItem(Integer status) {
+        this.statusItem = status;
+    }
 
     @Override
     public int hashCode() {

@@ -75,14 +75,24 @@ public class PedidoService {
         return pedidoRepository.findByCliente(user.getId(),pageRequest);
     }
 
-    public long pedidosDiario() {
+    public long countPedidosDiario() {
         LocalDate data = LocalDate.now();
-        return pedidoRepository.pedidosDiario(data);
+        return pedidoRepository.countPedidosDiario(data);
     }
 
-    public long itensDiario() {
+    public long countItensDiario() {
+        LocalDate data = LocalDate.now();
+        return pedidoRepository.countItensDiario(data);
+    }
+
+    public List<ItemPedido> itensDiario(){
         LocalDate data = LocalDate.now();
         return pedidoRepository.itensDiario(data);
+    }
+
+    public List<Pedido> pedidosDiario(){
+        LocalDate data = LocalDate.now();
+        return pedidoRepository.pedidosDiario(data);
     }
 
 
@@ -98,4 +108,9 @@ public class PedidoService {
     public long countItensByStatusItem(Integer status){
         return pedidoRepository.countItensByStatusItem(status);
     }
+
+    public void updateStatusItem(Integer status, Long idPedido, Long idProduto){
+        pedidoRepository.updateStatusItem(status, idPedido, idProduto);
+    }
+
 }

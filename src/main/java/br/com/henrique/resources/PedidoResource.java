@@ -13,6 +13,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/pedidos")
@@ -55,14 +56,28 @@ public class PedidoResource {
         return ResponseEntity.ok().body(listDto);
     }
 
-    @RequestMapping(value="/count", method = RequestMethod.GET)
-    public long pedidosDiario(){
-        return pedidoService.pedidosDiario();
+    @RequestMapping(value="/now/count", method = RequestMethod.GET)
+    public long countPedidosDiario(){
+        return pedidoService.countPedidosDiario();
     }
 
+    @RequestMapping(value="/now", method = RequestMethod.GET)
+    public ResponseEntity<List<PedidoDTO>> pedidosDiario(){
+        List<Pedido> list = pedidoService.pedidosDiario();
+        List<PedidoDTO> listDto = list.stream().map(obj -> new PedidoDTO(obj)).collect(Collectors.toList());
+        return ResponseEntity.ok().body(listDto);
+    }
+
+
     @RequestMapping(value="/itens/count", method = RequestMethod.GET)
-    public long itensDiario(){
-        return pedidoService.itensDiario();
+    public long countItensDiario(){
+        return pedidoService.countItensDiario();
+    }
+
+    @RequestMapping(value="/itens/now", method = RequestMethod.GET)
+    public ResponseEntity<List<ItemPedido>> itensDiario(){
+        List<ItemPedido> list = pedidoService.itensDiario();
+        return ResponseEntity.ok().body(list);
     }
 
     @RequestMapping(value="/total", method = RequestMethod.GET)
@@ -75,8 +90,14 @@ public class PedidoResource {
         return pedidoService.itensByStatus(status);
     }
 
-    @RequestMapping(value="itens/demandas", method = RequestMethod.GET)
+    @RequestMapping(value="/itens/demandas", method = RequestMethod.GET)
     public long countItensByStatusItem(@RequestParam Integer status){
         return pedidoService.countItensByStatusItem(status);
+    }
+
+    @RequestMapping(value="/itens", method = RequestMethod.PUT)
+    public ResponseEntity<Void> updateStatusItem(@RequestBody Integer status, @RequestParam Long idPedido, @RequestParam Long idProduto){
+        pedidoService.updateStatusItem(status, idPedido, idProduto);
+        return ResponseEntity.noContent().build();
     }
 }

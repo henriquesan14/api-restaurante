@@ -58,8 +58,8 @@ public class MesaResource {
         return ResponseEntity.noContent().build();
     }
 
-    @RequestMapping(value="/{id}", method = RequestMethod.PATCH)
-    public ResponseEntity<Void> updateStatus(@RequestParam(value="value") Integer status, @PathVariable Long id){
+    @RequestMapping(value="/status", method = RequestMethod.PUT)
+    public ResponseEntity<Void> updateStatus(@RequestBody Integer status, @RequestParam Long id){
         mesaService.updateStatus(status, id);
         return ResponseEntity.noContent().build();
     }

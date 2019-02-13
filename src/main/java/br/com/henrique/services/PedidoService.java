@@ -16,6 +16,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
@@ -86,8 +88,19 @@ public class PedidoService {
     }
 
     public List<ItemPedido> itensDiario(){
-        LocalDate data = LocalDate.now();
-        return pedidoRepository.itensDiario(data);
+        Date data = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            System.out.println(sdf.format(sdf.parse(sdf.format(data))));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        try {
+            return pedidoRepository.itensDiario(sdf.parse(sdf.format(data)));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public List<Pedido> pedidosDiario(){

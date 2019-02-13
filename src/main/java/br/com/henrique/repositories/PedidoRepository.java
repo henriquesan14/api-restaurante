@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -30,8 +31,8 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
     @Query(value = "SELECT COUNT(*) FROM ITEM_PEDIDO I INNER JOIN PEDIDO P ON I.PEDIDO_ID= P.ID WHERE CAST(P.DATA AS DATE) = ?1", nativeQuery = true)
     long countItensDiario(LocalDate data);
 
-    @Query(value = "SELECT i FROM ItemPedido i WHERE CAST(i.id.pedido.data AS DATE) = ?1")
-    List<ItemPedido> itensDiario(LocalDate data);
+    @Query(value = "SELECT i FROM ItemPedido i WHERE CAST(i.id.pedido.data as date)=?1")
+    List<ItemPedido> itensDiario(Date data);
 
     @Query(value = "SELECT SUM(p.valor_total) FROM Pedido p WHERE CAST(p.data as date) =?1", nativeQuery = true)
     BigDecimal totalDiario(LocalDate data);

@@ -12,8 +12,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
+
+    private final List<String> allowedOrigins = Arrays.asList("http://localhost:4200");
+
 
     private JWTUtil jwtUtil;
 
@@ -37,6 +42,9 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
         }
+        String origin = request.getHeader("Origin");
+        response.setHeader("Access-Control-Allow-Origin", allowedOrigins.contains(origin) ? origin : "");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
         chain.doFilter(request, response);
     }
 

@@ -4,6 +4,7 @@ import br.com.henrique.domain.ItemPedido;
 import br.com.henrique.domain.Pedido;
 import br.com.henrique.domain.Usuario;
 import br.com.henrique.domain.enums.Perfil;
+import br.com.henrique.domain.enums.StatusMesa;
 import br.com.henrique.domain.enums.StatusPedido;
 import br.com.henrique.repositories.PedidoRepository;
 import br.com.henrique.security.UserSS;
@@ -34,6 +35,9 @@ public class PedidoService {
     @Autowired
     private ProdutoService produtoService;
 
+    @Autowired
+    private MesaService mesaService;
+
 
     public List<Pedido> findAll(){
         return pedidoRepository.findAll();
@@ -51,6 +55,8 @@ public class PedidoService {
             x.setProduto(produtoService.find(x.getProduto().getId()));
         });
         obj.calculaTotal();
+        obj.getMesa().setStatus(StatusMesa.OCUPADA);
+        mesaService.update(obj.getMesa());
         return pedidoRepository.save(obj);
     }
 

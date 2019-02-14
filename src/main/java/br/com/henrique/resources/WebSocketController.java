@@ -18,6 +18,6 @@ public class WebSocketController {
 
     @MessageMapping("/send/message")
     public void onReceivedMesage(String message){
-        this.template.convertAndSend("/chat",  "Passou " + message);
+        this.template.convertAndSend("/chat", message);
     }
 }

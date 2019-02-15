@@ -1,6 +1,7 @@
 package br.com.henrique.services;
 
 import br.com.henrique.domain.Produto;
+import br.com.henrique.domain.statistics.CountProduto;
 import br.com.henrique.repositories.ProdutoRepository;
 import br.com.henrique.services.exceptions.DataIntegrityException;
 import br.com.henrique.services.exceptions.ObjectNotFoundException;
@@ -65,7 +66,9 @@ public class ProdutoService {
         }
     }
 
-
+    public List<CountProduto> statisticsProduto(){
+        return produtoRepository.statisticsProduto();
+    }
 
 
 }

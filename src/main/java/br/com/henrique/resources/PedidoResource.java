@@ -100,4 +100,6 @@ public class PedidoResource {
         pedidoService.updateStatusItem(status, idPedido, idProduto);
         return ResponseEntity.noContent().build();
     }
+
+
 }

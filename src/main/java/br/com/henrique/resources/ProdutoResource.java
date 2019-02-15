@@ -2,6 +2,7 @@ package br.com.henrique.resources;
 
 import br.com.henrique.DTO.ProdutoDTO;
 import br.com.henrique.domain.Produto;
+import br.com.henrique.domain.statistics.CountProduto;
 import br.com.henrique.services.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -76,6 +77,12 @@ public class ProdutoResource {
     public ResponseEntity<Void> delete(@PathVariable Long id){
         produtoService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @RequestMapping(value="/statistics", method = RequestMethod.GET)
+    public ResponseEntity<List<CountProduto>> statisticsProduto(){
+        List<CountProduto> list = produtoService.statisticsProduto();
+        return ResponseEntity.ok().body(list);
     }
 
 

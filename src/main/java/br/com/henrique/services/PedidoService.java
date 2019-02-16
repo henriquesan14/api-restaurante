@@ -6,6 +6,7 @@ import br.com.henrique.domain.Usuario;
 import br.com.henrique.domain.enums.Perfil;
 import br.com.henrique.domain.enums.StatusMesa;
 import br.com.henrique.domain.enums.StatusPedido;
+import br.com.henrique.domain.statistics.PedidoStatistics;
 import br.com.henrique.repositories.PedidoRepository;
 import br.com.henrique.security.UserSS;
 import br.com.henrique.services.exceptions.AuthorizationException;
@@ -125,6 +126,11 @@ public class PedidoService {
 
     public void updateStatusItem(Integer status, Long idPedido, Long idProduto){
         pedidoRepository.updateStatusItem(status, idPedido, idProduto);
+    }
+
+    public List<PedidoStatistics> pedidoStatistics(){
+        Integer mes = LocalDate.now().getMonthValue();
+        return pedidoRepository.pedidoStatistics(mes);
     }
 
 }

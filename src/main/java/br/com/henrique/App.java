@@ -79,23 +79,38 @@ public class App implements CommandLineRunner {
 
         Mesa m = new Mesa(null,"Mesa001");
         Mesa m2 = new Mesa(null,"Mesa002");
-        mesaRepository.saveAll(Arrays.asList(m,m2));
+        Mesa m3 = new Mesa(null,"Mesa003");
+        mesaRepository.saveAll(Arrays.asList(m,m2,m3));
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        Pedido ped1= new Pedido(null,sdf.parse("30/09/2017 10:32"),m,u2,u);
+        Pedido ped1= new Pedido(null,sdf.parse("01/02/2019 10:32"),m,u2,u);
         ItemPedido i = new ItemPedido(ped1,p1,1);
         ItemPedido i2 = new ItemPedido(ped1,p2,2);
         ped1.getItens().add(i);
         ped1.getItens().add(i2);
         ped1.calculaTotal();
 
-        Pedido ped2= new Pedido(null,sdf.parse("01/05/2019 11:12"),m2,u3,u2);
+        Pedido ped2= new Pedido(null,sdf.parse("05/02/2019 11:12"),m2,u3,u2);
         ItemPedido i3 = new ItemPedido(ped2,p1,5);
         ItemPedido i4 = new ItemPedido(ped2,p2,5);
         ped2.getItens().add(i3);
         ped2.getItens().add(i4);
         ped2.calculaTotal();
 
+        Pedido ped3= new Pedido(null,sdf.parse("10/02/2019 11:12"),m3,u3,u2);
+        ItemPedido i5 = new ItemPedido(ped3,p1,5);
+        ItemPedido i6 = new ItemPedido(ped3,p2,5);
+        ped3.getItens().add(i5);
+        ped3.getItens().add(i6);
+        ped3.calculaTotal();
 
-        pedidoRepository.saveAll(Arrays.asList(ped1,ped2));
+        Pedido ped4= new Pedido(null,sdf.parse("10/02/2019 11:12"),m,u3,u2);
+        ItemPedido i7 = new ItemPedido(ped4,p1,5);
+        ItemPedido i8 = new ItemPedido(ped4,p2,5);
+        ped4.getItens().add(i7);
+        ped4.getItens().add(i8);
+        ped4.calculaTotal();
+
+
+        pedidoRepository.saveAll(Arrays.asList(ped1,ped2, ped3, ped4));
     }
 }

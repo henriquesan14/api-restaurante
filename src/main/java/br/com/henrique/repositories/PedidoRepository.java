@@ -2,6 +2,7 @@ package br.com.henrique.repositories;
 
 import br.com.henrique.domain.ItemPedido;
 import br.com.henrique.domain.Pedido;
+import br.com.henrique.domain.statistics.PedidoStatistics;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -48,5 +49,7 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
     @Query("UPDATE ItemPedido i SET i.statusItem=?1 WHERE i.id.pedido.id=?2 AND i.id.produto.id=?3")
     void updateStatusItem(Integer status, Long idPedido, Long idProduto);
 
-
+    @Transactional
+    @Query(value = "SELECT DAY(DATA) AS DIA, MONTH(DATA) AS MES, SUM(VALOR_TOTAL) AS TOTAL FROM PEDIDO WHERE MONTH(DATA) = ?1 GROUP BY DAY(DATA),MONTH(DATA) ORDER BY DAY(DATA) ASC", nativeQuery = true)
+    List<PedidoStatistics> pedidoStatistics(Integer mes);
 }

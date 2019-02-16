@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,8 +68,10 @@ public class ProdutoService {
     }
 
     public List<CountProduto> statisticsProduto(){
-        return produtoRepository.statisticsProduto();
+        Integer mes = LocalDate.now().getMonthValue();
+        return produtoRepository.statisticsProduto(mes);
     }
+
 
 
 }

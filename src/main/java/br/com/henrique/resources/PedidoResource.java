@@ -3,6 +3,7 @@ package br.com.henrique.resources;
 import br.com.henrique.DTO.PedidoDTO;
 import br.com.henrique.domain.ItemPedido;
 import br.com.henrique.domain.Pedido;
+import br.com.henrique.domain.statistics.PedidoStatistics;
 import br.com.henrique.services.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -101,5 +102,9 @@ public class PedidoResource {
         return ResponseEntity.noContent().build();
     }
 
-
+    @RequestMapping(value="/statistics", method=RequestMethod.GET)
+    public ResponseEntity<List<PedidoStatistics>> pedidoStatistic(){
+        List<PedidoStatistics> list =pedidoService.pedidoStatistics();
+        return ResponseEntity.ok().body(list);
+    }
 }

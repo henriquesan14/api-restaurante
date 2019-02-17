@@ -64,6 +64,10 @@ public class UsuarioService {
     }
 
     public List<Usuario> findLikeEmail(String email){
+        UserSS user = UserService.authenticated();
+        if(user.isCliente()){
+            return usuarioRepository.findLikeEmail(user.getUsername());
+        }
         return usuarioRepository.findLikeEmail("%"+email+"%");
     }
 

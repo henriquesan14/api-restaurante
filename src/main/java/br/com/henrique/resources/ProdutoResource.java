@@ -79,6 +79,7 @@ public class ProdutoResource {
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @RequestMapping(value="/statistics", method = RequestMethod.GET)
     public ResponseEntity<List<CountProduto>> statisticsProduto(){
         List<CountProduto> list = produtoService.statisticsProduto();

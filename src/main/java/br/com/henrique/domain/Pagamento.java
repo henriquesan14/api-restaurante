@@ -4,6 +4,8 @@ import br.com.henrique.domain.enums.FormaPagamento;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -15,8 +17,11 @@ public class Pagamento implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Positive(message="Valor deve ser maior que 0")
+    @NotNull(message="Preenchimento obrigatorio")
     private BigDecimal valorRecebido;
 
+    @NotNull(message = "Preenchimento obrigatorio")
     private Integer formaPagamento;
 
     @JsonIgnore

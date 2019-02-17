@@ -79,63 +79,44 @@ public class App implements CommandLineRunner {
         usuarioRepository.saveAll(Arrays.asList(u,u2,u3));
 
         Mesa m = new Mesa(null,"Mesa001");
+        m.setStatus(StatusMesa.OCUPADA);
         Mesa m2 = new Mesa(null,"Mesa002");
+        m2.setStatus(StatusMesa.OCUPADA);
         Mesa m3 = new Mesa(null,"Mesa003");
-        mesaRepository.saveAll(Arrays.asList(m,m2,m3));
+        m3.setStatus(StatusMesa.OCUPADA);
+        Mesa m4 = new Mesa(null,"Mesa004");
+        m4.setStatus(StatusMesa.OCUPADA);
+        Mesa m5 = new Mesa(null,"Mesa005");
+        mesaRepository.saveAll(Arrays.asList(m,m2,m3,m4,m5));
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-//        Pedido ped1= new Pedido(null,sdf.parse("01/02/2019 10:32"),m,u2,u);
-//        ItemPedido i = new ItemPedido(ped1,p1,1);
-//        ItemPedido i2 = new ItemPedido(ped1,p2,2);
-//        ped1.getItens().add(i);
-//        ped1.getItens().add(i2);
-//        ped1.calculaTotal();
-//
-//        Pedido ped2= new Pedido(null,sdf.parse("05/02/2019 11:12"),m2,u3,u2);
-//        ItemPedido i3 = new ItemPedido(ped2,p1,5);
-//        ItemPedido i4 = new ItemPedido(ped2,p2,5);
-//        ped2.getItens().add(i3);
-//        ped2.getItens().add(i4);
-//        ped2.calculaTotal();
-//
-//        Pedido ped3= new Pedido(null,sdf.parse("10/02/2019 11:12"),m3,u3,u2);
-//        ItemPedido i5 = new ItemPedido(ped3,p1,5);
-//        ItemPedido i6 = new ItemPedido(ped3,p2,5);
-//        ped3.getItens().add(i5);
-//        ped3.getItens().add(i6);
-//        ped3.calculaTotal();
-//
-//        Pedido ped4= new Pedido(null,sdf.parse("10/02/2019 11:12"),m,u3,u2);
-//        ItemPedido i7 = new ItemPedido(ped4,p1,5);
-//        ItemPedido i8 = new ItemPedido(ped4,p2,5);
-//        ped4.getItens().add(i7);
-//        ped4.getItens().add(i8);
-//        ped4.calculaTotal();
-        Random random = new Random();
-        for(int i =1;i<25;i++){
-            Pedido ped1= new Pedido(null,sdf.parse("01/02/2019 10:32"),m,u2,u);
-            if(i>=10){
-                String data = i+"/02/2019 10:32";
-                ped1.setData(sdf.parse(data));
-            }else{
-                String data ="0"+i+"/02/2019 10:32";
-                ped1.setData(sdf.parse(data));
-            }
-            Pagamento pag = new Pagamento(null, BigDecimal.valueOf(30),1, ped1);
-            Pagamento pag2 = new Pagamento(null, BigDecimal.valueOf(120),2, ped1);
-            ped1.getPagamentos().add(pag);
-            ped1.getPagamentos().add(pag2);
-            ItemPedido it = new ItemPedido(ped1,p3,random.nextInt(10) +1);
-            ItemPedido i2 = new ItemPedido(ped1,p2,random.nextInt(10) +1);
-            ItemPedido i3 = new ItemPedido(ped1,p1,random.nextInt(10) +1);
-            ped1.getItens().add(it);
-            ped1.getItens().add(i2);
-            ped1.getItens().add(i3);
-            ped1.calculaTotal();
-            ped1.calculaPagamento();
-            pedidoRepository.saveAll(Arrays.asList(ped1));
-        }
+        Pedido ped1= new Pedido(null,sdf.parse("01/02/2019 10:32"),m,u2,u);
+        ItemPedido i = new ItemPedido(ped1,p1,1);
+        ItemPedido i2 = new ItemPedido(ped1,p2,2);
+        ped1.getItens().add(i);
+        ped1.getItens().add(i2);
+        ped1.calculaTotal();
 
+        Pedido ped2= new Pedido(null,sdf.parse("05/02/2019 11:12"),m2,u3,u2);
+        ItemPedido i3 = new ItemPedido(ped2,p1,1);
+        ItemPedido i4 = new ItemPedido(ped2,p2,1);
+        ped2.getItens().add(i3);
+        ped2.getItens().add(i4);
+        ped2.calculaTotal();
 
-//        pedidoRepository.saveAll(Arrays.asList(ped1,ped2, ped3, ped4));
+        Pedido ped3= new Pedido(null,sdf.parse("10/02/2019 11:12"),m3,u3,u2);
+        ItemPedido i5 = new ItemPedido(ped3,p1,3);
+        ItemPedido i6 = new ItemPedido(ped3,p5,1);
+        ped3.getItens().add(i5);
+        ped3.getItens().add(i6);
+        ped3.calculaTotal();
+
+        Pedido ped4= new Pedido(null,sdf.parse("15/02/2019 11:12"),m4,u3,u2);
+        ItemPedido i7 = new ItemPedido(ped4,p8,1);
+        ItemPedido i8 = new ItemPedido(ped4,p7,4);
+        ped4.getItens().add(i7);
+        ped4.getItens().add(i8);
+        ped4.calculaTotal();
+
+        pedidoRepository.saveAll(Arrays.asList(ped1,ped2, ped3, ped4));
     }
 }

@@ -1,12 +1,14 @@
 package br.com.henrique.services;
 
 import br.com.henrique.domain.ItemPedido;
+import br.com.henrique.domain.Pagamento;
 import br.com.henrique.domain.Pedido;
 import br.com.henrique.domain.Usuario;
 import br.com.henrique.domain.enums.Perfil;
 import br.com.henrique.domain.enums.StatusMesa;
 import br.com.henrique.domain.enums.StatusPedido;
 import br.com.henrique.domain.statistics.PedidoStatistics;
+import br.com.henrique.repositories.PagamentoRepository;
 import br.com.henrique.repositories.PedidoRepository;
 import br.com.henrique.security.UserSS;
 import br.com.henrique.services.exceptions.AuthorizationException;
@@ -38,6 +40,9 @@ public class PedidoService {
 
     @Autowired
     private MesaService mesaService;
+
+    @Autowired
+    private PagamentoRepository pagamentoRepository;
 
 
     public List<Pedido> findAll(){
@@ -82,6 +87,11 @@ public class PedidoService {
         }
         PageRequest pageRequest = PageRequest.of(page, linesPorPage, Sort.Direction.valueOf(direction), orderBy);
         return pedidoRepository.findByCliente(user.getId(),pageRequest);
+    }
+
+    public Page<Pedido> findByStatus(Integer status,Integer page, Integer linesPorPage, String orderBy, String direction){
+        PageRequest pageRequest = PageRequest.of(page, linesPorPage, Sort.Direction.valueOf(direction), orderBy);
+        return pedidoRepository.findByStatus(status, pageRequest);
     }
 
     public long countPedidosDiario() {
@@ -131,6 +141,18 @@ public class PedidoService {
     public List<PedidoStatistics> pedidoStatistics(){
         Integer mes = LocalDate.now().getMonthValue();
         return pedidoRepository.pedidoStatistics(mes);
+    }
+
+    public Pagamento addPagamento(Long id, Pagamento obj){
+        Pedido ped = find(id);
+        obj.setId(null);
+        obj.setPedido(ped);
+        obj.getPedido().getPagamentos().add(obj);
+        if(obj.getPedido().calculaPagamento()){
+            pedidoRepository.updateStatusPedido(2, obj.getPedido().getId());
+            mesaService.updateStatus(1,ped.getMesa().getId());
+        }
+        return pagamentoRepository.save(obj);
     }
 
 }

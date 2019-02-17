@@ -69,14 +69,16 @@ public class Pedido implements Serializable {
         this.valorTotal = soma;
     }
 
-    public void calculaPagamento(){
+    public boolean calculaPagamento(){
         BigDecimal valorRecebido = BigDecimal.ZERO;
         for(Pagamento p: pagamentos){
             valorRecebido = valorRecebido.add(p.getValorRecebido());
         }
         if(valorRecebido.compareTo(valorTotal) >= 0){
             status = 2;
+            return true;
         }
+        return false;
     }
 
     public Long getId() {

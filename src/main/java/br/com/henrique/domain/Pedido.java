@@ -8,9 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Pedido implements Serializable {
@@ -47,6 +45,10 @@ public class Pedido implements Serializable {
 
     private BigDecimal valorTotal;
 
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+    private List<Pagamento> pagamentos = new ArrayList<>();
+
+
     public Pedido() {
     }
 
@@ -65,6 +67,16 @@ public class Pedido implements Serializable {
             soma = soma.add(ip.getSubTotal());
         }
         this.valorTotal = soma;
+    }
+
+    public void calculaPagamento(){
+        BigDecimal valorRecebido = BigDecimal.ZERO;
+        for(Pagamento p: pagamentos){
+            valorRecebido = valorRecebido.add(p.getValorRecebido());
+        }
+        if(valorRecebido.compareTo(valorTotal) >= 0){
+            status = 2;
+        }
     }
 
     public Long getId() {
@@ -127,8 +139,12 @@ public class Pedido implements Serializable {
         return valorTotal;
     }
 
-    public void setValorTotal(BigDecimal valorTotal) {
-        this.valorTotal = valorTotal;
+    public List<Pagamento> getPagamentos() {
+        return pagamentos;
+    }
+
+    public void setPagamentos(List<Pagamento> pagamentos) {
+        this.pagamentos = pagamentos;
     }
 
     @Override

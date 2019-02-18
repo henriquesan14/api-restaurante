@@ -54,4 +54,5 @@ public class ProdutoDTO implements Serializable {
     public void setCategoria(String categoria) {
         this.categoria = categoria;
     }
+
 }

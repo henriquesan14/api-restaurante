@@ -33,7 +33,7 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
 
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM PEDIDO p WHERE CAST(p.data as date) =?1", nativeQuery = true)
-    List<Pedido> pedidosDiario(LocalDate data);
+    Page<Pedido> pedidosDiario(LocalDate data, Pageable pageRequest);
 
     @Transactional(readOnly = true)
     @Query(value = "SELECT COUNT(*) FROM ITEM_PEDIDO I INNER JOIN PEDIDO P ON I.PEDIDO_ID= P.ID WHERE CAST(P.DATA AS DATE) = ?1", nativeQuery = true)

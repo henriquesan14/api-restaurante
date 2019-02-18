@@ -1,6 +1,7 @@
 package br.com.henrique.DTO;
 
 import br.com.henrique.domain.Pedido;
+import br.com.henrique.domain.PedidoComum;
 import br.com.henrique.domain.enums.StatusPedido;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -18,8 +19,8 @@ public class PedidoDTO implements Serializable {
     private String status;
     private String mesa;
     private String cliente;
-    private String funcionario;
     private BigDecimal valorTotal;
+    private String tipo;
 
     public PedidoDTO() {
     }
@@ -28,9 +29,14 @@ public class PedidoDTO implements Serializable {
         this.id = obj.getId();
         this.data = obj.getData();
         this.status  = obj.getStatus().getDescricao();
-        this.mesa = obj.getMesa().getNome();
         this.cliente = (obj.getCliente()==null) ? null : obj.getCliente().getNome();
-        this.funcionario = obj.getFuncionario().getNome();
+        if(obj instanceof PedidoComum){
+            PedidoComum ped = (PedidoComum) obj;
+            this.mesa = ped.getMesa().getNome();
+            this.tipo = "Comum";
+        }else{
+            this.tipo = "Delivery";
+        }
         this.valorTotal = obj.getValorTotal();
     }
 
@@ -72,19 +78,19 @@ public class PedidoDTO implements Serializable {
         this.cliente = cliente;
     }
 
-    public String getFuncionario() {
-        return funcionario;
-    }
-
-    public void setFuncionario(String funcionario) {
-        this.funcionario = funcionario;
-    }
-
     public BigDecimal getValorTotal() {
         return valorTotal;
     }
 
     public void setValorTotal(BigDecimal valorTotal) {
         this.valorTotal = valorTotal;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 }

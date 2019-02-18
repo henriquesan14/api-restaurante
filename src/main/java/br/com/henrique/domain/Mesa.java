@@ -25,7 +25,7 @@ public class Mesa implements Serializable {
 
     @JsonIgnore
     @OneToMany(mappedBy = "mesa")
-    private List<Pedido> pedidos = new ArrayList<>();
+    private List<PedidoComum> pedidos = new ArrayList<>();
 
     public Mesa() {
     }
@@ -61,11 +61,11 @@ public class Mesa implements Serializable {
         this.status = status.getCod();
     }
 
-    public List<Pedido> getPedidos() {
+    public List<PedidoComum> getPedidos() {
         return pedidos;
     }
 
-    public void setPedidos(List<Pedido> pedidos) {
+    public void setPedidos(List<PedidoComum> pedidos) {
         this.pedidos = pedidos;
     }
 

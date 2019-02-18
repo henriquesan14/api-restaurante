@@ -1,9 +1,6 @@
 package br.com.henrique.services;
 
-import br.com.henrique.domain.ItemPedido;
-import br.com.henrique.domain.Pagamento;
-import br.com.henrique.domain.Pedido;
-import br.com.henrique.domain.Usuario;
+import br.com.henrique.domain.*;
 import br.com.henrique.domain.enums.Perfil;
 import br.com.henrique.domain.enums.StatusMesa;
 import br.com.henrique.domain.enums.StatusPedido;
@@ -51,18 +48,27 @@ public class PedidoService {
 
     public Pedido insert(Pedido obj){
         Usuario us = usuarioService.find(UserService.authenticated().getId());
+        UserSS auth = UserService.authenticated();
+        if(auth.isCliente() && obj instanceof PedidoComum){
+            throw new AuthorizationException("Acesso negado");
+        }
         obj.setId(null);
         obj.setData(new Date());
-        obj.setFuncionario(us);
         obj.setStatus(StatusPedido.PENDENTE);
         obj.getItens().forEach(x -> {
             x.setPedido(obj);
             x.setStatusItem(1);
             x.setProduto(produtoService.find(x.getProduto().getId()));
         });
+        if(obj instanceof PedidoComum){
+            PedidoComum pedidoComum = (PedidoComum) obj;
+            pedidoComum.setFuncionario(us);
+            pedidoComum.getMesa().setStatus(StatusMesa.OCUPADA);
+            mesaService.updateStatus(2, pedidoComum.getMesa().getId());
+            pedidoComum.calculaTotal();
+            return pedidoRepository.save(pedidoComum);
+        }
         obj.calculaTotal();
-        obj.getMesa().setStatus(StatusMesa.OCUPADA);
-        mesaService.update(obj.getMesa());
         return pedidoRepository.save(obj);
     }
 
@@ -115,9 +121,10 @@ public class PedidoService {
         return null;
     }
 
-    public List<Pedido> pedidosDiario(){
+    public Page<Pedido> pedidosDiario(Integer page, Integer linesPorPage, String orderBy, String direction){
         LocalDate data = LocalDate.now();
-        return pedidoRepository.pedidosDiario(data);
+        PageRequest pageRequest = PageRequest.of(page, linesPorPage, Sort.Direction.valueOf(direction), orderBy);
+        return pedidoRepository.pedidosDiario(data, pageRequest);
     }
 
 
@@ -148,9 +155,16 @@ public class PedidoService {
         obj.setId(null);
         obj.setPedido(ped);
         obj.getPedido().getPagamentos().add(obj);
-        if(obj.getPedido().calculaPagamento()){
-            pedidoRepository.updateStatusPedido(2, obj.getPedido().getId());
-            mesaService.updateStatus(1,ped.getMesa().getId());
+        if(obj.getPedido() instanceof PedidoComum){
+            PedidoComum pedComum = (PedidoComum) obj.getPedido();
+            if(pedComum.calculaPagamento()){
+                pedidoRepository.updateStatusPedido(2, obj.getPedido().getId());
+                mesaService.updateStatus(1,pedComum.getMesa().getId());
+            }
+        }else{
+            if(ped.calculaPagamento()){
+                pedidoRepository.updateStatusPedido(2, obj.getPedido().getId());
+            }
         }
         return pagamentoRepository.save(obj);
     }

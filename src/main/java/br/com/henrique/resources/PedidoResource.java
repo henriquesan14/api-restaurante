@@ -80,9 +80,13 @@ public class PedidoResource {
 
     @PreAuthorize("hasAnyRole('ADMIN','COZINHEIRO','GARCOM')")
     @RequestMapping(value="/now", method = RequestMethod.GET)
-    public ResponseEntity<List<PedidoDTO>> pedidosDiario(){
-        List<Pedido> list = pedidoService.pedidosDiario();
-        List<PedidoDTO> listDto = list.stream().map(obj -> new PedidoDTO(obj)).collect(Collectors.toList());
+    public ResponseEntity<Page<PedidoDTO>> pedidosDiario(
+                                                         @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                                         @RequestParam(value = "linesPorPage", defaultValue = "24") Integer linesPorPage,
+                                                         @RequestParam(value = "orderBy", defaultValue = "data") String orderBy,
+                                                         @RequestParam(value = "direction", defaultValue = "DESC") String direction){
+        Page<Pedido> list = pedidoService.pedidosDiario(page, linesPorPage, orderBy, direction);
+        Page<PedidoDTO> listDto = list.map(obj -> new PedidoDTO(obj));
         return ResponseEntity.ok().body(listDto);
     }
 

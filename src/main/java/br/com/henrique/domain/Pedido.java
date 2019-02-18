@@ -3,15 +3,19 @@ package br.com.henrique.domain;
 import br.com.henrique.domain.enums.StatusPedido;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.*;
 
 @Entity
-public class Pedido implements Serializable {
+@Inheritance(strategy =InheritanceType.SINGLE_TABLE)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
+public abstract class Pedido implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -23,22 +27,14 @@ public class Pedido implements Serializable {
 
     private Integer status;
 
-    @JsonIgnoreProperties("pedidos")
-    @ManyToOne
-    @JoinColumn(name="mesa_id")
-    @NotNull(message = "Preenchimento obrigatorio")
-    private Mesa mesa;
 
     @JsonIgnoreProperties("pedidos")
     @ManyToOne
     @JoinColumn(name="cliente_id")
     private Usuario cliente;
 
-    @JsonIgnoreProperties("pedidos")
-    @ManyToOne
-    @JoinColumn(name="funcionario_id")
-    private Usuario funcionario;
 
+    @NotEmpty
     @NotNull(message = "Preenchimento obrigatorio")
     @OneToMany(mappedBy = "id.pedido", cascade = CascadeType.ALL)
     private Set<ItemPedido> itens = new HashSet<>();
@@ -52,13 +48,11 @@ public class Pedido implements Serializable {
     public Pedido() {
     }
 
-    public Pedido(Long id, Date data, Mesa mesa, Usuario cliente, Usuario funcionario) {
+    public Pedido(Long id, Date data, Usuario cliente) {
         this.id = id;
         this.data = data;
         this.status = 1;
-        this.mesa = mesa;
         this.cliente = cliente;
-        this.funcionario = funcionario;
     }
 
     public void calculaTotal(){
@@ -105,14 +99,6 @@ public class Pedido implements Serializable {
         this.status = status.getCod();
     }
 
-    public Mesa getMesa() {
-        return mesa;
-    }
-
-    public void setMesa(Mesa mesa) {
-        this.mesa = mesa;
-    }
-
     public Usuario getCliente() {
         return cliente;
     }
@@ -121,13 +107,6 @@ public class Pedido implements Serializable {
         this.cliente = cliente;
     }
 
-    public Usuario getFuncionario() {
-        return funcionario;
-    }
-
-    public void setFuncionario(Usuario funcionario) {
-        this.funcionario = funcionario;
-    }
 
     public Set<ItemPedido> getItens() {
         return itens;

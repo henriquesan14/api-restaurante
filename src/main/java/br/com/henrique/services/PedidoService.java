@@ -5,6 +5,7 @@ import br.com.henrique.domain.enums.Perfil;
 import br.com.henrique.domain.enums.StatusMesa;
 import br.com.henrique.domain.enums.StatusPedido;
 import br.com.henrique.domain.statistics.PedidoStatistics;
+import br.com.henrique.repositories.EnderecoRepository;
 import br.com.henrique.repositories.PagamentoRepository;
 import br.com.henrique.repositories.PedidoRepository;
 import br.com.henrique.security.UserSS;
@@ -40,6 +41,9 @@ public class PedidoService {
 
     @Autowired
     private PagamentoRepository pagamentoRepository;
+
+    @Autowired
+    private EnderecoRepository enderecoRepository;
 
 
     public List<Pedido> findAll(){
@@ -168,5 +172,6 @@ public class PedidoService {
         }
         return pagamentoRepository.save(obj);
     }
+
 
 }

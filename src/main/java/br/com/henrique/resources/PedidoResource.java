@@ -143,4 +143,5 @@ public class PedidoResource {
                 .path("/{id}").buildAndExpand(pag.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
+
 }

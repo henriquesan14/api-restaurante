@@ -96,6 +96,12 @@ public class UsuarioResource {
         return ResponseEntity.created(uri).build();
     }
 
+    @RequestMapping(value="/enderecos", method = RequestMethod.GET)
+    public ResponseEntity<List<Endereco>> findByUsuario(@RequestParam(required = false) Long idUsuario){
+        List<Endereco> list = usuarioService.findByUsuario(idUsuario);
+        return ResponseEntity.ok().body(list);
+    }
+
     @RequestMapping(value="/{id}/enderecos", method = RequestMethod.POST)
     public ResponseEntity<Void> insertEndereco(@PathVariable Long id,@Valid @RequestBody Endereco obj){
         Endereco end = usuarioService.insertEndereco(id, obj);

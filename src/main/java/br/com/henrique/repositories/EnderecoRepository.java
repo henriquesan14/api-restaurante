@@ -6,10 +6,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface EnderecoRepository extends JpaRepository<Endereco, Long> {
+
+    @Transactional
+    @Query("SELECT e FROM Endereco e WHERE e.usuario.id=?1")
+    List<Endereco> findByUsuario(Long idUsuario);
 
     @Transactional
     @Query("SELECT e FROM Endereco e WHERE e.id=?1 AND e.usuario.id=?2")

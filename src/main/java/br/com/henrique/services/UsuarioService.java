@@ -204,7 +204,16 @@ public class UsuarioService {
         newObj.setEmail(obj.getEmail());
     }
 
-
+    public List<Endereco> findByUsuario(Long idUsuario){
+        UserSS user= UserService.authenticated();
+        if(idUsuario==null){
+            return enderecoRepository.findByUsuario(user.getId());
+        }
+        if(user==null || user.isCliente() && !idUsuario.equals(user.getId())){
+            throw new AuthorizationException("Acesso negado");
+        }
+        return enderecoRepository.findByUsuario(idUsuario);
+    }
 
 
 }

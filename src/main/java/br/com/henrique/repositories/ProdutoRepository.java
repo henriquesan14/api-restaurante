@@ -23,7 +23,7 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
     Page<Produto> findByNome(String nome, Pageable pageRequest);
 
     @Transactional
-    @Query(value = "SELECT TOP 10 NOME,SUM(QUANTIDADE) AS QUANTIDADE FROM ITEM_PEDIDO I INNER JOIN PRODUTO P ON I.PRODUTO_ID=P.ID INNER JOIN PEDIDO PE ON I.PEDIDO_ID=PE.ID WHERE MONTH(PE.DATA)=?1 GROUP BY PRODUTO_ID  ORDER BY QUANTIDADE DESC ", nativeQuery = true)
+    @Query(value = "SELECT NOME,SUM(QUANTIDADE) AS QUANTIDADE FROM ITEM_PEDIDO I INNER JOIN PRODUTO P ON I.PRODUTO_ID=P.ID INNER JOIN PEDIDO PE ON I.PEDIDO_ID=PE.ID WHERE MONTH(PE.DATA)=?1 GROUP BY PRODUTO_ID  ORDER BY QUANTIDADE DESC LIMIT 10", nativeQuery = true)
     List<CountProduto> statisticsProduto(Integer mes);
 
 }

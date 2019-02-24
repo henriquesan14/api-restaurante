@@ -17,7 +17,7 @@ import java.util.List;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
-    private final List<String> allowedOrigins = Arrays.asList("http://localhost:4200");
+    private final List<String> allowedOrigins = Arrays.asList("http://localhost:4200", "https://app-ui-restaurante.herokuapp.com/");
 
 
     private JWTUtil jwtUtil;

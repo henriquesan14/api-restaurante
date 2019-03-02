@@ -40,7 +40,7 @@ public class PedidoResource {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> insert(@RequestBody Pedido obj){
+    public ResponseEntity<Void> insert(@Valid @RequestBody Pedido obj){
         obj = pedidoService.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(obj.getId()).toUri();
@@ -59,6 +59,7 @@ public class PedidoResource {
         Page<PedidoDTO> listDto = list.map(obj -> new PedidoDTO(obj));
         return ResponseEntity.ok().body(listDto);
     }
+
 
     @PreAuthorize("hasAnyRole('ADMIN','COZINHEIRO','GARCOM')")
     @RequestMapping(value="/status", method=RequestMethod.GET)

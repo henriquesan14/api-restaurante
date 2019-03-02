@@ -11,6 +11,7 @@ import br.com.henrique.repositories.PedidoRepository;
 import br.com.henrique.security.UserSS;
 import br.com.henrique.services.exceptions.AuthorizationException;
 import br.com.henrique.services.exceptions.ObjectNotFoundException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -75,6 +76,7 @@ public class PedidoService {
         obj.calculaTotal();
         return pedidoRepository.save(obj);
     }
+
 
     public Pedido find(Long id){
         UserSS user= UserService.authenticated();
